@@ -8,8 +8,8 @@ from cursor import Cursor
 class GameManager:
     def __init__(self):
         # Define constants
-        self.SCREEN_WIDTH = 800
-        self.SCREEN_HEIGHT = 600
+        self.SCREEN_WIDTH = 640
+        self.SCREEN_HEIGHT = 640
         self.FPS = 60
         self.MOLE_WIDTH = 90
         self.MOLE_HEIGHT = 81
@@ -23,13 +23,20 @@ class GameManager:
         self.misses = 0
         self.level = 1
         self.hit_rate = 0
+        self.mode = "none"
         # Initialize screen
         self.screen = pygame.display.set_mode((self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
         self.surface = pygame.Surface((self.SCREEN_WIDTH, self.SCREEN_HEIGHT), pygame.SRCALPHA)
+        
         pygame.display.set_caption(self.GAME_TITLE)
-        self.background = pygame.image.load("images/bg.jpeg")
+        
+        self.background = pygame.image.load("images/bg.png")
+        self.background = pygame.transform.scale(self.background, (self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
+        
+        
         # Font object for displaying text
-        self.font_obj = pygame.font.Font('./fonts/GROBOLD.ttf', self.FONT_SIZE)
+        self.font_obj = pygame.font.Font('./fonts/Ghostphobia.ttf', self.FONT_SIZE)
+        
         # 6 different states
         sprite_sheet = pygame.image.load("images/zombie.png")
         self.mole = []
@@ -43,17 +50,17 @@ class GameManager:
 
         # Positions of the holes in background
         self.hole_positions = []
-        self.hole_positions.append((100, 227))
-        self.hole_positions.append((200,227))
-        self.hole_positions.append((285, 227))
-        self.hole_positions.append((443, 227))
-        self.hole_positions.append((534, 227))
-        self.hole_positions.append((622, 227))
-        self.hole_positions.append((104,365))
-        self.hole_positions.append((205,365))
-        self.hole_positions.append((293, 365))
-        self.hole_positions.append((448, 365))
-        self.hole_positions.append((539, 365))
+        self.hole_positions.append((194, 571))
+        self.hole_positions.append((493, 569))
+        self.hole_positions.append((430, 463))
+        self.hole_positions.append((613, 461))
+        self.hole_positions.append((182, 467))
+        self.hole_positions.append((100, 377))
+        self.hole_positions.append((324, 375))
+        self.hole_positions.append((539, 375))
+        self.hole_positions.append((203, 320))
+        self.hole_positions.append((424, 324))
+        self.hole_positions.append((211, 291))
 
 
         # Init debugger
@@ -63,20 +70,29 @@ class GameManager:
 
     # Calculate the player level according to his current score & the LEVEL_SCORE_GAP constant
     def get_player_level(self):
-        newLevel = 1 + int(self.score / self.LEVEL_SCORE_GAP)
-        if newLevel != self.level:
-            # if player get a new level play this sound
-            self.soundEffect.playLevelUp()
-        return 1 + int(self.score / self.LEVEL_SCORE_GAP)
+        # newLevel = 1 + int(self.score / self.LEVEL_SCORE_GAP)
+        # if newLevel != self.level:
+        #     # if player get a new level play this sound
+        #     self.soundEffect.playLevelUp()
+        # return 1 + int(self.score / self.LEVEL_SCORE_GAP)
+        return self.level
 
     # Get the new duration between the time the mole pop up and down the holes
     # It's in inverse ratio to the player's current level
+    # def get_interval_by_level(self, initial_interval):
+    #     new_interval = initial_interval - self.level * 0.15
+    #     if new_interval > 0:
+    #         return new_interval
+    #     else:
+    #         return 0.05
+        
     def get_interval_by_level(self, initial_interval):
-        new_interval = initial_interval - self.level * 0.15
-        if new_interval > 0:
-            return new_interval
-        else:
-            return 0.05
+        # Ensure the interval decreases more significantly for higher levels
+        new_interval = initial_interval / (self.level)  # Example formula
+
+        # Ensure the interval doesn't become too low or negative
+        min_interval = 0.1  # Set a minimum interval value
+        return max(new_interval, min_interval)
 
     # Check whether the mouse click hit the mole or not
     def is_mole_hit(self, mouse_position, current_hole_position):
@@ -98,6 +114,7 @@ class GameManager:
         score_text_pos.centerx = self.SCREEN_WIDTH / 10 * 3.5
         score_text_pos.centery = self.FONT_TOP_MARGIN
         self.screen.blit(score_text, score_text_pos)
+        
         # Update the player's misses
         current_misses_string = "MISSES: " + str(self.misses)
         misses_text = self.font_obj.render(current_misses_string, True, (255, 255, 255))
@@ -105,6 +122,7 @@ class GameManager:
         misses_text_pos.centerx = self.SCREEN_WIDTH / 10 * 6
         misses_text_pos.centery = self.FONT_TOP_MARGIN
         self.screen.blit(misses_text, misses_text_pos)
+        
         # Update the player's misses
         current_hitrate_string = "HIT RATE: " + str(f'{self.hit_rate:3.0f}%') 
         hit_rate_text = self.font_obj.render(current_hitrate_string, True, (255, 255, 255))
@@ -112,8 +130,9 @@ class GameManager:
         hit_rate_text_pos.centerx = self.SCREEN_WIDTH / 10 * 8.5
         hit_rate_text_pos.centery = self.FONT_TOP_MARGIN
         self.screen.blit(hit_rate_text, hit_rate_text_pos)
+        
         # Update the player's level
-        current_level_string = "LEVEL: " + str(self.level)
+        current_level_string = "MODE: " + str(self.mode)
         level_text = self.font_obj.render(current_level_string, True, (255, 255, 255))
         level_text_pos = level_text.get_rect()
         level_text_pos.centerx = self.SCREEN_WIDTH / 10 * 1
@@ -130,9 +149,79 @@ class GameManager:
         self.screen.blit(self.surface, (0, 0))
         return restartBtn
 
+    def show_menu(self):
+        menu_font = self.font_obj
+        title_font = pygame.font.Font('./fonts/Ghostphobia.ttf', 100)  # Larger font for the title
+        running = True
+        while running:
+            self.screen.blit(self.background, (0, 0))
+            title = title_font.render("Whac The Zom", True, (255, 0, 0))
+            title_rect = title.get_rect(center=(self.SCREEN_WIDTH/2, 150))
+
+            easy_button = pygame.Rect((200, 250, 240, 50))
+            medium_button = pygame.Rect((200, 320, 240, 50))
+            hard_button = pygame.Rect((200, 390, 240, 50))
+
+            pygame.draw.rect(self.screen, (255, 255, 255), easy_button)
+            pygame.draw.rect(self.screen, (255, 255, 255), medium_button)
+            pygame.draw.rect(self.screen, (255, 255, 255), hard_button)
+
+            easy_text = menu_font.render("Easy", True, (0, 0, 0))
+            medium_text = menu_font.render("Medium", True, (0, 0, 0))
+            hard_text = menu_font.render("Hard", True, (0, 0, 0))
+
+            self.screen.blit(title, title_rect)
+            self.screen.blit(easy_text, (250, 260))
+            self.screen.blit(medium_text, (235, 330))
+            self.screen.blit(hard_text, (250, 400))
+
+            pygame.display.flip()
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                    pygame.quit()
+                    exit()
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    mouse_pos = event.pos
+                    if easy_button.collidepoint(mouse_pos):
+                        return 1, "Easy"  # Easy level
+                    if medium_button.collidepoint(mouse_pos):
+                        return 2, "Medium"  # Medium level
+                    if hard_button.collidepoint(mouse_pos):
+                        return 3, "Hard"  # Hard level
+                    
+    def end_game_display(self):
+        # Display the final score
+        self.screen.blit(self.background, (0, 0))
+        final_score_text = self.font_obj.render(f"Final Score: {self.score}", True, (255, 255, 255))
+        final_score_rect = final_score_text.get_rect(center=(self.SCREEN_WIDTH / 2, self.SCREEN_HEIGHT / 2))
+        self.screen.blit(final_score_text, final_score_rect)
+        pygame.display.flip()
+
+        # Wait for a key press to exit
+        waiting_for_input = True
+        while waiting_for_input:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                    waiting_for_input = False
+
     # Start the game's main loop
     # Contains some logic for handling animations, mole hit events, etc..
     async def start(self):
+        selected_level , selected_mode  = self.show_menu()
+        self.level, self.mode = selected_level , selected_mode
+        
+        # Play the theme based on the selected mode
+        self.soundEffect.playTheme(self.mode)
+
+        if self.mode == "Easy":
+            self.frame_change_rate = 1
+        elif self.mode == "Medium":
+            self.frame_change_rate = 10
+        elif self.mode == "Hard":
+            self.frame_change_rate = 120
+            
         cycle_time = 0
         num = -1
         prev_num = -1
@@ -148,11 +237,26 @@ class GameManager:
         clock = pygame.time.Clock()
         c = Cursor()
         
+        self.frame_change_rate = 1  # Default frame change rate
+        
+        # Initialize the countdown timer (120 seconds = 2 minutes)
+        countdown_timer = 120
+        
+        
         for i in range(len(self.mole)):
             self.mole[i].set_colorkey((0, 0, 0))
             self.mole[i] = self.mole[i].convert_alpha()
 
         while loop:
+            mil = clock.tick(self.FPS)  # Time passed in milliseconds
+            sec = mil / 1000.0  # Convert milliseconds to seconds
+
+            countdown_timer -= sec  # Decrement the countdown timer
+            if countdown_timer <= 0:
+                pygame.mouse.set_visible(True)  # Make sure the mouse is visible
+                self.end_game_display()  # Call the method to display end game screen
+                break  # Break out of the game loop
+            
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     loop = False
@@ -178,6 +282,9 @@ class GameManager:
                         is_down = False
                         left = 0
                 if event.type == MOUSEBUTTONDOWN and event.button == self.LEFT_MOUSE_BUTTON and not pause:
+                    # mouse_x, mouse_y = event.pos  # Get the x, y position of the mouse click
+                    # self.debugger.log(f"Mouse clicked at: ({mouse_x}, {mouse_y})")  # Log the position
+                    
                     self.soundEffect.playFire()
                     c.set_hammer(True)
                     if self.is_mole_hit(mouse.get_pos(), self.hole_positions[frame_num]) and num > 0 and left == 0:
@@ -199,12 +306,10 @@ class GameManager:
                         self.hit_rate = 100
                     else:
                         self.hit_rate = (self.score / (self.misses + self.score ))*100
-                    if self.hit_rate < 50:
-                        self.soundEffect.stopFire()
 
                 if event.type == MOUSEBUTTONUP and event.button == self.LEFT_MOUSE_BUTTON:
                     c.set_hammer(False)
-            
+       
             if num > 5:
                 prev_num = num
                 num = -1
@@ -223,23 +328,31 @@ class GameManager:
             if cycle_time > interval and not pause:
                 prev_num = num
                 if is_down is False:
-                    num += 1
+                    num += self.frame_change_rate  # Use frame change rate here
                 else:
-                    num -= 1
+                    num -= self.frame_change_rate  # Use frame change rate here
                 if num == 4:
-                    interval = 0.3
+                    interval = 0.3/(self.level*2)
                 elif num == 3:
                     num -= 1
                     is_down = True
                     self.soundEffect.playPop()
                     interval = self.get_interval_by_level(initial_interval)  # get the newly decreased interval value
                 else:
-                    interval = 0.1
+                    interval = 0.1/(self.level*2)
                 cycle_time = 0
             # Update the display
             if not pause:
                 self.screen.blit(self.background, (0, 0))
                 self.update()
+                
+                # Update and draw the countdown timer
+                timer_text = self.font_obj.render(f"Time Left: {int(countdown_timer)}s", True, (255, 255, 255))
+                timer_text_pos = timer_text.get_rect()
+                timer_text_pos.centerx = self.SCREEN_WIDTH / 2
+                timer_text_pos.centery = self.FONT_TOP_MARGIN + 30
+                self.screen.blit(timer_text, timer_text_pos)
+                
                 if num >= 0 and num <= 5:
                     if cycle_time > interval:
                         pic = self.mole[num] 
@@ -276,6 +389,17 @@ class SoundEffect:
         self.levelSound.set_volume(0.1)
         pygame.mixer.music.play(-1)
         pygame.mixer.music.set_volume(0.05)
+        
+    def playTheme(self, mode):
+        if mode == "Easy":
+            pygame.mixer.music.load("sounds/grasswalk.mp3")
+        elif mode == "Medium":
+            pygame.mixer.music.load("sounds/loonboon.mp3")
+        elif mode == "Hard":
+            pygame.mixer.music.load("sounds/ultimate_battle.mp3")
+            
+        pygame.mixer.music.set_volume(0.5)
+        pygame.mixer.music.play(-1)  # Play indefinitely
 
     def playFire(self):
         self.fireSound.play()
