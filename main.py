@@ -218,14 +218,33 @@ class GameManager:
         final_score_text = self.font_obj.render(f"Final Score: {self.score}", True, (255, 255, 255))
         final_score_rect = final_score_text.get_rect(center=(self.SCREEN_WIDTH / 2, self.SCREEN_HEIGHT / 2))
         self.screen.blit(final_score_text, final_score_rect)
+            
+        # menu_font = self.font_obj
+        # play_again_button = pygame.Rect((200, 360, 240, 50))  
+        # pygame.draw.rect(self.screen, (255, 255, 255), play_again_button)
+        # play_again_text = menu_font.render("Play again", True, (0, 0, 0))
+        # play_again_text_center = play_again_text.get_rect(center=(self.SCREEN_WIDTH/2, 385))
+        # self.screen.blit(play_again_text, play_again_text_center) 
+                
         pygame.display.flip()
-
+            
         # Wait for a key press to exit
         waiting_for_input = True
         while waiting_for_input:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                     waiting_for_input = False
+                    # if event.type == pygame.QUIT:
+                    #     running = False
+                    #     pygame.quit()
+                    #     exit()
+                    # if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    #     mouse_pos = event.pos
+                    #     if play_again_button.collidepoint(mouse_pos):
+                    #         return 3, "Hard"  # Hard level
+            
+
+                
 
     # Start the game's main loop
     # Contains some logic for handling animations, mole hit events, etc..
@@ -261,13 +280,13 @@ class GameManager:
         self.frame_change_rate = 1  # Default frame change rate
         
         # Initialize the countdown timer (120 seconds = 2 minutes)
-        countdown_timer = 120
+        countdown_timer = 2
         
         
         for i in range(len(self.mole)):
             self.mole[i].set_colorkey((0, 0, 0))
             self.mole[i] = self.mole[i].convert_alpha()
-
+            
         while loop:
             mil = clock.tick(self.FPS)  # Time passed in milliseconds
             sec = mil / 1000.0  # Convert milliseconds to seconds
@@ -277,7 +296,6 @@ class GameManager:
                 pygame.mouse.set_visible(True)  # Make sure the mouse is visible
                 self.end_game_display()  # Call the method to display end game screen
                 break  # Break out of the game loop
-            
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     loop = False
