@@ -50,18 +50,19 @@ class GameManager:
 
         # Positions of the holes in background
         self.hole_positions = []
-        self.hole_positions.append((194, 571))
-        self.hole_positions.append((493, 569))
-        self.hole_positions.append((430, 463))
-        self.hole_positions.append((613, 461))
-        self.hole_positions.append((182, 467))
-        self.hole_positions.append((100, 377))
-        self.hole_positions.append((324, 375))
-        self.hole_positions.append((539, 375))
-        self.hole_positions.append((203, 320))
-        self.hole_positions.append((424, 324))
-        self.hole_positions.append((211, 291))
-
+        self.hole_positions.append((145, 500))
+        self.hole_positions.append((410, 500))
+        self.hole_positions.append((357, 395))
+        self.hole_positions.append((237, 430))
+        self.hole_positions.append((125, 395))
+        self.hole_positions.append((250, 337))
+        self.hole_positions.append((395, 330))
+        self.hole_positions.append((250, 304))
+        self.hole_positions.append((30, 300))
+        self.hole_positions.append((140, 250))
+        self.hole_positions.append((350, 248))
+        self.hole_positions.append((350, 215))
+        self.hole_positions.append((142, 215))
 
         # Init debugger
         self.debugger = Debugger("debug")
@@ -155,25 +156,45 @@ class GameManager:
         running = True
         while running:
             self.screen.blit(self.background, (0, 0))
-            title = title_font.render("Whac The Zom", True, (255, 0, 0))
+            title = title_font.render("Whack The Zom", True, (255, 0, 0))
             title_rect = title.get_rect(center=(self.SCREEN_WIDTH/2, 150))
+            current_x = pygame.mouse.get_pos()[0]
+            current_y = pygame.mouse.get_pos()[1]
 
             easy_button = pygame.Rect((200, 250, 240, 50))
             medium_button = pygame.Rect((200, 320, 240, 50))
             hard_button = pygame.Rect((200, 390, 240, 50))
 
-            pygame.draw.rect(self.screen, (255, 255, 255), easy_button)
-            pygame.draw.rect(self.screen, (255, 255, 255), medium_button)
-            pygame.draw.rect(self.screen, (255, 255, 255), hard_button)
+            if (200 <= current_x and current_x <= 440 and 250 <= current_y and current_y <= 300):
+                pygame.draw.rect(self.screen, (255, 255, 255), easy_button)
+                easy_border = pygame.Rect((198, 248, 244, 54))
+                pygame.draw.rect(self.screen, (0, 0, 0), easy_border, 2)
+            else: pygame.draw.rect(self.screen, (255, 255, 255), easy_button)
+            
+            if (200 <= current_x and current_x <= 440 and 320 <= current_y and current_y <= 370):
+                pygame.draw.rect(self.screen, (255, 255, 255), medium_button)
+                medium_border = pygame.Rect((198, 318, 244, 54))
+                pygame.draw.rect(self.screen, (0, 0, 0), medium_border, 2)
+            else: pygame.draw.rect(self.screen, (255, 255, 255), medium_button)
+            
+            if (200 <= current_x and current_x <= 440 and 390 <= current_y and current_y <= 440):
+                pygame.draw.rect(self.screen, (255, 255, 255), hard_button)
+                hard_border = pygame.Rect((198, 388, 244, 54))
+                pygame.draw.rect(self.screen, (0, 0, 0), hard_border, 2)
+            else: pygame.draw.rect(self.screen, (255, 255, 255), hard_button)
 
             easy_text = menu_font.render("Easy", True, (0, 0, 0))
             medium_text = menu_font.render("Medium", True, (0, 0, 0))
             hard_text = menu_font.render("Hard", True, (0, 0, 0))
-
+            
+            easy_text_center = easy_text.get_rect(center=(self.SCREEN_WIDTH/2, 275))
+            medium_text_center = medium_text.get_rect(center=(self.SCREEN_WIDTH/2, 345))
+            hard_text_center = hard_text.get_rect(center=(self.SCREEN_WIDTH/2, 415))
+            
             self.screen.blit(title, title_rect)
-            self.screen.blit(easy_text, (250, 260))
-            self.screen.blit(medium_text, (235, 330))
-            self.screen.blit(hard_text, (250, 400))
+            self.screen.blit(easy_text, easy_text_center)
+            self.screen.blit(medium_text, medium_text_center)
+            self.screen.blit(hard_text, hard_text_center)
 
             pygame.display.flip()
 
