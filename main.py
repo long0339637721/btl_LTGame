@@ -23,6 +23,7 @@ class GameManager:
         self.score = 0
         self.misses = 0
         self.level = 1
+        self.speed = 1
         self.hit_rate = 0
         self.mode = "none"
         # Initialize screen
@@ -69,14 +70,10 @@ class GameManager:
         self.debugger = Debugger("debug")
         # Sound effects
         self.soundEffect = SoundEffect()
-
-    # Return the player's current level
-    def get_player_level(self):
-        return self.level
         
     def get_interval_by_level(self, initial_interval):
         # Ensure the interval decreases more significantly for higher levels
-        new_interval = initial_interval / (self.level)  # Example formula
+        new_interval = initial_interval / (self.speed)  # Example formula
 
         # Ensure the interval doesn't become too low or negative
         min_interval = 0.1  # Set a minimum interval value
@@ -250,6 +247,7 @@ class GameManager:
         self.hit_rate = 0
         if not playAgain:
             self.level, self.mode = self.show_menu()
+        self.speed = self.level
         
         # Play the theme based on the selected mode
         self.soundEffect.playTheme(self.mode)
@@ -272,7 +270,7 @@ class GameManager:
         
         # Initialize the countdown timer (120 seconds = 2 minutes)
         # countdown_timer = self.TIMER
-        countdown_timer = self.TIMER
+        countdown_timer = 10
         
         for i in range(len(self.mole)):
             self.mole[i].set_colorkey((0, 0, 0))
@@ -315,14 +313,19 @@ class GameManager:
                     pygame.mouse.set_visible(False)
                 if event.type == MOUSEBUTTONDOWN and pause:
                     if restartButton.collidepoint(event.pos):
-                        pause = False
-                        num = -1
+                        # pause = False
+                        # num = -1
+                        # self.score = 0
+                        # self.misses = -1
+                        # self.level = 1
+                        # self.hit_rate = 0
+                        # is_down = False
+                        # left = 0
                         self.score = 0
-                        self.misses = -1
-                        self.level = 1
+                        self.misses = 0
                         self.hit_rate = 0
-                        is_down = False
-                        left = 0
+
+                        await self.start(True)
                 if event.type == MOUSEBUTTONDOWN and event.button == self.LEFT_MOUSE_BUTTON and not pause:
                     # mouse_x, mouse_y = event.pos  # Get the x, y position of the mouse click
                     # self.debugger.log(f"Mouse clicked at: ({mouse_x}, {mouse_y})")  # Log the position
@@ -335,7 +338,9 @@ class GameManager:
                         is_down = False
                         interval = 0
                         self.score += 1  # Increase player's score
-                        self.level = self.get_player_level()  # Calculate player's level
+                        if (self.score and self.score % 10 == 0):
+                            self.speed += 1
+                        print("lever: ", self.level, ", speech: ", self.speed)
                         # Stop popping sound effect
                         self.soundEffect.stopPop()
                         # Play hurt sound
@@ -374,14 +379,14 @@ class GameManager:
                 else:
                     num -= self.frame_change_rate  # Use frame change rate here
                 if num == 4:
-                    interval = 0.3/(self.level*2)
+                    interval = 0.3/(self.speed*2)
                 elif num == 3:
                     num -= 1
                     is_down = True
                     self.soundEffect.playPop()
                     interval = self.get_interval_by_level(initial_interval)  # get the newly decreased interval value
                 else:
-                    interval = 0.1/(self.level*2)
+                    interval = 0.1/(self.speed*2)
                 cycle_time = 0
             # Update the display
             if not pause:
