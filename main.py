@@ -18,6 +18,7 @@ class GameManager:
         self.LEVEL_SCORE_GAP = 4
         self.LEFT_MOUSE_BUTTON = 1
         self.GAME_TITLE = "Whack A Mole - Game Programming - Assignment 1"
+        self.TIMER = 120  # 120 seconds = 2 minutes
         # Initialize player's score, number of missed hits and level
         self.score = 0
         self.misses = 0
@@ -69,23 +70,9 @@ class GameManager:
         # Sound effects
         self.soundEffect = SoundEffect()
 
-    # Calculate the player level according to his current score & the LEVEL_SCORE_GAP constant
+    # Return the player's current level
     def get_player_level(self):
-        # newLevel = 1 + int(self.score / self.LEVEL_SCORE_GAP)
-        # if newLevel != self.level:
-        #     # if player get a new level play this sound
-        #     self.soundEffect.playLevelUp()
-        # return 1 + int(self.score / self.LEVEL_SCORE_GAP)
         return self.level
-
-    # Get the new duration between the time the mole pop up and down the holes
-    # It's in inverse ratio to the player's current level
-    # def get_interval_by_level(self, initial_interval):
-    #     new_interval = initial_interval - self.level * 0.15
-    #     if new_interval > 0:
-    #         return new_interval
-    #     else:
-    #         return 0.05
         
     def get_interval_by_level(self, initial_interval):
         # Ensure the interval decreases more significantly for higher levels
@@ -95,7 +82,7 @@ class GameManager:
         min_interval = 0.1  # Set a minimum interval value
         return max(new_interval, min_interval)
 
-    # Check whether the mouse click hit the mole or not
+    # Check whether the mouse click hit the hole or not
     def is_mole_hit(self, mouse_position, current_hole_position):
         mouse_x = mouse_position[0]
         mouse_y = mouse_position[1]
@@ -219,13 +206,19 @@ class GameManager:
         final_score_rect = final_score_text.get_rect(center=(self.SCREEN_WIDTH / 2, self.SCREEN_HEIGHT / 2))
         self.screen.blit(final_score_text, final_score_rect)
             
-        # menu_font = self.font_obj
-        # play_again_button = pygame.Rect((200, 360, 240, 50))  
-        # pygame.draw.rect(self.screen, (255, 255, 255), play_again_button)
-        # play_again_text = menu_font.render("Play again", True, (0, 0, 0))
-        # play_again_text_center = play_again_text.get_rect(center=(self.SCREEN_WIDTH/2, 385))
-        # self.screen.blit(play_again_text, play_again_text_center) 
-                
+        menu_font = self.font_obj
+        play_again_button = pygame.Rect((200, 360, 240, 50))  
+        pygame.draw.rect(self.screen, (255, 255, 255), play_again_button)
+        play_again_text = menu_font.render("Play again", True, (0, 0, 0))
+        play_again_text_center = play_again_text.get_rect(center=(self.SCREEN_WIDTH/2, 385))
+        self.screen.blit(play_again_text, play_again_text_center) 
+        
+        new_game_button = pygame.Rect((200, 420, 240, 50))  
+        pygame.draw.rect(self.screen, (255, 255, 255), new_game_button)
+        new_game_text = menu_font.render("New game", True, (0, 0, 0))
+        new_game_text_center = new_game_text.get_rect(center=(self.SCREEN_WIDTH/2, 445))
+        self.screen.blit(new_game_text, new_game_text_center) 
+
         pygame.display.flip()
             
         # Wait for a key press to exit
@@ -234,33 +227,32 @@ class GameManager:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                     waiting_for_input = False
-                    # if event.type == pygame.QUIT:
-                    #     running = False
-                    #     pygame.quit()
-                    #     exit()
-                    # if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                    #     mouse_pos = event.pos
-                    #     if play_again_button.collidepoint(mouse_pos):
-                    #         return 3, "Hard"  # Hard level
+                if event.type == pygame.QUIT:
+                    running = False
+                    pygame.quit()
+                    exit()
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    mouse_pos = event.pos
+                    if play_again_button.collidepoint(mouse_pos):
+                        return "Play again"
+                    if new_game_button.collidepoint(mouse_pos):
+                        return "New game"
+        return False
             
 
                 
 
     # Start the game's main loop
     # Contains some logic for handling animations, mole hit events, etc..
-    async def start(self):
-        selected_level , selected_mode  = self.show_menu()
-        self.level, self.mode = selected_level , selected_mode
+    async def start(self, playAgain = False):
+        self.score = 0
+        self.misses = 0
+        self.hit_rate = 0
+        if not playAgain:
+            self.level, self.mode = self.show_menu()
         
         # Play the theme based on the selected mode
         self.soundEffect.playTheme(self.mode)
-
-        if self.mode == "Easy":
-            self.frame_change_rate = 1
-        elif self.mode == "Medium":
-            self.frame_change_rate = 10
-        elif self.mode == "Hard":
-            self.frame_change_rate = 120
             
         cycle_time = 0
         num = -1
@@ -272,16 +264,15 @@ class GameManager:
         initial_interval = 1
         frame_num = 0
         left = 0
-        restartBtn = self.pause_menu()
-        # Time control variables
+        restartButton = self.pause_menu()
         clock = pygame.time.Clock()
         c = Cursor()
         
-        self.frame_change_rate = 1  # Default frame change rate
+        self.frame_change_rate = 1
         
         # Initialize the countdown timer (120 seconds = 2 minutes)
-        countdown_timer = 2
-        
+        # countdown_timer = self.TIMER
+        countdown_timer = self.TIMER
         
         for i in range(len(self.mole)):
             self.mole[i].set_colorkey((0, 0, 0))
@@ -291,11 +282,23 @@ class GameManager:
             mil = clock.tick(self.FPS)  # Time passed in milliseconds
             sec = mil / 1000.0  # Convert milliseconds to seconds
 
-            countdown_timer -= sec  # Decrement the countdown timer
+            if not pause:
+                countdown_timer -= sec  # Decrement the countdown timer
             if countdown_timer <= 0:
                 pygame.mouse.set_visible(True)  # Make sure the mouse is visible
-                self.end_game_display()  # Call the method to display end game screen
-                break  # Break out of the game loop
+                print("Game over")
+                endGameChoise = self.end_game_display()
+                if endGameChoise == "New game":
+                    print("New game")
+                    await self.start()  # Start a new game
+                elif endGameChoise == "Play again":
+                    print("Play again")
+                    self.score = 0
+                    self.misses = 0
+                    self.hit_rate = 0
+                    await self.start(True)
+                # break  # Break out of the game loop
+            
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     loop = False
@@ -311,7 +314,7 @@ class GameManager:
                 else:
                     pygame.mouse.set_visible(False)
                 if event.type == MOUSEBUTTONDOWN and pause:
-                    if restartBtn.collidepoint(event.pos):
+                    if restartButton.collidepoint(event.pos):
                         pause = False
                         num = -1
                         self.score = 0
