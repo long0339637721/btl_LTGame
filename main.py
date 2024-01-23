@@ -49,7 +49,7 @@ class GameManager:
         self.mole.append(sprite_sheet.subsurface(717, 0, 120, 100))
         self.mole.append(sprite_sheet.subsurface(853, 0, 120, 100))
         self.mole.append(sprite_sheet.subsurface(853, 0, 120, 100))
-
+        
         # Positions of the holes in background
         self.hole_positions = []
         self.hole_positions.append((145, 500))
@@ -65,7 +65,24 @@ class GameManager:
         self.hole_positions.append((350, 248))
         self.hole_positions.append((350, 215))
         self.hole_positions.append((142, 215))
-
+        
+        # Bam effect and positions of bam effect
+        self.bam_effect = pygame.image.load("images/bam.png").subsurface(0, 0, 60, 40)
+        self.bam_effect_positions = []
+        self.bam_effect_positions.append((145, 550))
+        self.bam_effect_positions.append((410, 550))
+        self.bam_effect_positions.append((357, 445))
+        self.bam_effect_positions.append((237, 480))
+        self.bam_effect_positions.append((125, 445))
+        self.bam_effect_positions.append((250, 387))
+        self.bam_effect_positions.append((395, 380))
+        self.bam_effect_positions.append((250, 354))
+        self.bam_effect_positions.append((30, 350))
+        self.bam_effect_positions.append((140, 300))
+        self.bam_effect_positions.append((350, 298))
+        self.bam_effect_positions.append((350, 265))
+        self.bam_effect_positions.append((142, 265))
+        
         # Init debugger
         self.debugger = Debugger("debug")
         # Sound effects
@@ -127,10 +144,10 @@ class GameManager:
     # Draw the pause menu
     def pause_menu(self):
         pygame.draw.rect(self.surface, (128, 128, 128, 150), [0, 0, self.SCREEN_WIDTH, self.SCREEN_HEIGHT])
-        pygame.draw.rect(self.surface, 'dark gray', [100, 150, 600, 50])
-        restartBtn = pygame.draw.rect(self.surface, 'white', [280, 220, 240, 50])
-        self.surface.blit(self.font_obj.render('Game Paused', True, 'black'), (300, 160))
-        self.surface.blit(self.font_obj.render('Restart', True, 'black'), (340, 230))
+        pygame.draw.rect(self.surface, 'dark gray', [20, 150, 600, 50])
+        restartBtn = pygame.draw.rect(self.surface, 'white', [200, 220, 240, 50])
+        self.surface.blit(self.font_obj.render('Game Paused', True, 'black'), (249, 160)) 
+        self.surface.blit(self.font_obj.render('Restart', True, 'black'), (271, 230))
         self.screen.blit(self.surface, (0, 0))
         return restartBtn
 
@@ -235,10 +252,7 @@ class GameManager:
                     if new_game_button.collidepoint(mouse_pos):
                         return "New game"
         return False
-            
-
-                
-
+        
     # Start the game's main loop
     # Contains some logic for handling animations, mole hit events, etc..
     async def start(self, playAgain = False):
@@ -260,6 +274,8 @@ class GameManager:
         is_down = False
         interval = 0.1
         initial_interval = 1
+        is_stunned = False
+        star_move_count = 0
         frame_num = 0
         left = 0
         restartButton = self.pause_menu()
@@ -300,6 +316,8 @@ class GameManager:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     loop = False
+                    pygame.quit()
+                    exit()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         if pause:
@@ -337,10 +355,12 @@ class GameManager:
                         left = 14
                         is_down = False
                         interval = 0
+                        star_move_count = 0
+                        is_stunned = True
                         self.score += 1  # Increase player's score
                         if (self.score and self.score % 10 == 0):
                             self.speed += 1
-                        print("lever: ", self.level, ", speech: ", self.speed)
+                        # print("level: ", self.level, ", speed: ", self.speed)
                         # Stop popping sound effect
                         self.soundEffect.stopPop()
                         # Play hurt sound
@@ -356,7 +376,7 @@ class GameManager:
 
                 if event.type == MOUSEBUTTONUP and event.button == self.LEFT_MOUSE_BUTTON:
                     c.set_hammer(False)
-       
+                    
             if num > 5:
                 prev_num = num
                 num = -1
@@ -409,6 +429,15 @@ class GameManager:
                         self.screen.blit(pic, (self.hole_positions[frame_num][0] - left, self.hole_positions[frame_num][1]))
                 c.draw()
                 c.update()
+                
+            
+            if is_stunned is True:
+                if star_move_count <= 15:
+                    star_move_count += 3
+                    self.screen.blit(self.bam_effect, (self.bam_effect_positions[frame_num][0] - star_move_count, self.bam_effect_positions[frame_num][1] - star_move_count))
+                else: 
+                    is_stunned = False
+                    
             pygame.display.flip()
             await asyncio.sleep(0)
 
