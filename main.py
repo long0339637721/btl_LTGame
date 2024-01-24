@@ -18,7 +18,7 @@ class GameManager:
         self.LEVEL_SCORE_GAP = 4
         self.LEFT_MOUSE_BUTTON = 1
         self.GAME_TITLE = "Whack A Mole - Game Programming - Assignment 1"
-        self.TIMER = 120  # 120 seconds = 2 minutes
+        self.TIMER = 120  # 120 seconds
         # Initialize player's score, number of missed hits and level
         self.score = 0
         self.misses = 0
@@ -49,6 +49,14 @@ class GameManager:
         self.mole.append(sprite_sheet.subsurface(717, 0, 120, 100))
         self.mole.append(sprite_sheet.subsurface(853, 0, 120, 100))
         self.mole.append(sprite_sheet.subsurface(853, 0, 120, 100))
+        
+        # self.mole.append(sprite_sheet.subsurface(270, 0, 120, 282))
+        # self.mole.append(sprite_sheet.subsurface(309, 0, 120, 282))
+        # self.mole.append(sprite_sheet.subsurface(449, 0, 120, 282))
+        # self.mole.append(sprite_sheet.subsurface(575, 0, 120, 282))
+        # self.mole.append(sprite_sheet.subsurface(717, 0, 120, 282))
+        # self.mole.append(sprite_sheet.subsurface(853, 0, 120, 282))
+        # self.mole.append(sprite_sheet.subsurface(853, 0, 120, 282))
         
         # Positions of the holes in background
         self.hole_positions = []
@@ -284,20 +292,19 @@ class GameManager:
         
         self.frame_change_rate = 1
         
-        # Initialize the countdown timer (120 seconds = 2 minutes)
+        # Initialize the countdown timer
         # countdown_timer = self.TIMER
         countdown_timer = 10
         
         for i in range(len(self.mole)):
             self.mole[i].set_colorkey((0, 0, 0))
             self.mole[i] = self.mole[i].convert_alpha()
-            
+        i = 1  
         while loop:
             mil = clock.tick(self.FPS)  # Time passed in milliseconds
             sec = mil / 1000.0  # Convert milliseconds to seconds
-
             if not pause:
-                countdown_timer -= sec  # Decrement the countdown timer
+                countdown_timer -= 2*sec  # Decrement the countdown timer
             if countdown_timer <= 0:
                 pygame.mouse.set_visible(True)  # Make sure the mouse is visible
                 print("Game over")
