@@ -50,14 +50,6 @@ class GameManager:
         self.mole.append(sprite_sheet.subsurface(853, 0, 120, 100))
         self.mole.append(sprite_sheet.subsurface(853, 0, 120, 100))
         
-        # self.mole.append(sprite_sheet.subsurface(270, 0, 120, 282))
-        # self.mole.append(sprite_sheet.subsurface(309, 0, 120, 282))
-        # self.mole.append(sprite_sheet.subsurface(449, 0, 120, 282))
-        # self.mole.append(sprite_sheet.subsurface(575, 0, 120, 282))
-        # self.mole.append(sprite_sheet.subsurface(717, 0, 120, 282))
-        # self.mole.append(sprite_sheet.subsurface(853, 0, 120, 282))
-        # self.mole.append(sprite_sheet.subsurface(853, 0, 120, 282))
-        
         # Positions of the holes in background
         self.hole_positions = []
         self.hole_positions.append((145, 500))
@@ -294,17 +286,16 @@ class GameManager:
         
         # Initialize the countdown timer
         # countdown_timer = self.TIMER
-        countdown_timer = 10
+        countdown_timer = 5
         
         for i in range(len(self.mole)):
             self.mole[i].set_colorkey((0, 0, 0))
             self.mole[i] = self.mole[i].convert_alpha()
-        i = 1  
         while loop:
             mil = clock.tick(self.FPS)  # Time passed in milliseconds
             sec = mil / 1000.0  # Convert milliseconds to seconds
             if not pause:
-                countdown_timer -= 2*sec  # Decrement the countdown timer
+                countdown_timer -= sec  # Decrement the countdown timer
             if countdown_timer <= 0:
                 pygame.mouse.set_visible(True)  # Make sure the mouse is visible
                 print("Game over")
@@ -318,7 +309,7 @@ class GameManager:
                     self.misses = 0
                     self.hit_rate = 0
                     await self.start(True)
-                # break  # Break out of the game loop
+                # break
             
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -396,8 +387,6 @@ class GameManager:
                 interval = 0.5
                 frame_num = random.randint(0, 10)
 
-            mil = clock.tick(self.FPS)
-            sec = mil / 1000.0
             cycle_time += sec
             if cycle_time > interval and not pause:
                 prev_num = num
