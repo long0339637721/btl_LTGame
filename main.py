@@ -49,6 +49,14 @@ class GameManager:
         self.mole.append(sprite_sheet.subsurface(717, 0, 120, 100))
         self.mole.append(sprite_sheet.subsurface(853, 0, 120, 100))
         self.mole.append(sprite_sheet.subsurface(853, 0, 120, 100))
+
+        # self.mole.append(sprite_sheet.subsurface(270, 0, 120, 282))
+        # self.mole.append(sprite_sheet.subsurface(309, 0, 120, 282))
+        # self.mole.append(sprite_sheet.subsurface(449, 0, 120, 282))
+        # self.mole.append(sprite_sheet.subsurface(575, 0, 120, 282))
+        # self.mole.append(sprite_sheet.subsurface(717, 0, 120, 282))
+        # self.mole.append(sprite_sheet.subsurface(853, 0, 120, 282))
+        # self.mole.append(sprite_sheet.subsurface(853, 0, 120, 282))
         
         # Positions of the holes in background
         self.hole_positions = []
@@ -286,7 +294,7 @@ class GameManager:
         
         # Initialize the countdown timer
         # countdown_timer = self.TIMER
-        countdown_timer = 5
+        countdown_timer = 30
         
         for i in range(len(self.mole)):
             self.mole[i].set_colorkey((0, 0, 0))
@@ -329,14 +337,6 @@ class GameManager:
                     pygame.mouse.set_visible(False)
                 if event.type == MOUSEBUTTONDOWN and pause:
                     if restartButton.collidepoint(event.pos):
-                        # pause = False
-                        # num = -1
-                        # self.score = 0
-                        # self.misses = -1
-                        # self.level = 1
-                        # self.hit_rate = 0
-                        # is_down = False
-                        # left = 0
                         self.score = 0
                         self.misses = 0
                         self.hit_rate = 0
@@ -358,7 +358,7 @@ class GameManager:
                         self.score += 1  # Increase player's score
                         if (self.score and self.score % 10 == 0):
                             self.speed += 1
-                        # print("level: ", self.level, ", speed: ", self.speed)
+                        print("level: ", self.level, ", speed: ", self.speed)
                         # Stop popping sound effect
                         self.soundEffect.stopPop()
                         # Play hurt sound
@@ -423,6 +423,7 @@ class GameManager:
                     else:
                         pic = self.mole[prev_num]
                         self.screen.blit(pic, (self.hole_positions[frame_num][0] - left, self.hole_positions[frame_num][1]))
+                
                 c.draw()
                 c.update()
                 
