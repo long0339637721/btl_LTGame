@@ -1,0 +1,21 @@
+﻿  game.cpp
+C:\Users\cobeq\OneDrive\Desktop\tiny_football-main\air_hockey\game.cpp(40,10): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\cobeq\OneDrive\Desktop\tiny_football-main\air_hockey\game.cpp(154,8): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+  GUI_SDL.cpp
+C:\Users\cobeq\OneDrive\Desktop\tiny_football-main\air_hockey\GUI_SDL.cpp(178,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\cobeq\OneDrive\Desktop\tiny_football-main\air_hockey\GUI_SDL.cpp(179,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\cobeq\OneDrive\Desktop\tiny_football-main\air_hockey\GUI_SDL.cpp(183,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\cobeq\OneDrive\Desktop\tiny_football-main\air_hockey\GUI_SDL.cpp(184,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\cobeq\OneDrive\Desktop\tiny_football-main\air_hockey\GUI_SDL.cpp(187,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\cobeq\OneDrive\Desktop\tiny_football-main\air_hockey\GUI_SDL.cpp(188,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\cobeq\OneDrive\Desktop\tiny_football-main\air_hockey\GUI_SDL.cpp(191,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\cobeq\OneDrive\Desktop\tiny_football-main\air_hockey\GUI_SDL.cpp(192,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\cobeq\OneDrive\Desktop\tiny_football-main\air_hockey\GUI_SDL.cpp(195,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\cobeq\OneDrive\Desktop\tiny_football-main\air_hockey\GUI_SDL.cpp(196,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\cobeq\OneDrive\Desktop\tiny_football-main\air_hockey\GUI_SDL.cpp(199,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\cobeq\OneDrive\Desktop\tiny_football-main\air_hockey\GUI_SDL.cpp(200,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\cobeq\OneDrive\Desktop\tiny_football-main\air_hockey\GUI_SDL.cpp(203,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\cobeq\OneDrive\Desktop\tiny_football-main\air_hockey\GUI_SDL.cpp(204,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+  main.cpp
+  Generating Code...
+  air_hockey.vcxproj -> C:\Users\cobeq\OneDrive\Desktop\tiny_football-main\x64\Debug\air_hockey.exe
