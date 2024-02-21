@@ -111,7 +111,7 @@ void GUI_SDL::load_sound()
 	Mix_PlayMusic(_music, -1);
 }
 
-Event_en GUI_SDL::checkEvent()
+Event_en GUI_SDL::checkEvent(bool isSelectingGameMode, bool isSelectingDifficult)
 {
 	SDL_Event event;
 
@@ -121,18 +121,28 @@ Event_en GUI_SDL::checkEvent()
 		{
 		case SDL_QUIT:
 			return esc;
+		case SDL_KEYDOWN:
+		{
+			if (event.key.keysym.sym == SDLK_UP || event.key.keysym.sym == SDLK_DOWN)
+				return btn_down_up;
+			if (event.key.keysym.sym == SDLK_KP_ENTER || event.key.keysym.sym == SDLK_RETURN)
+				return btn_enter;
+		}
 		case SDL_MOUSEBUTTONUP:
 		{
 			if (event.button.button == SDL_BUTTON_LEFT)
 			{
-				if (event.button.y > 10 && event.button.y < 80
-					&& event.button.x > 230 && event.button.x < 310)
+				if (isSelectingGameMode && event.button.y > 675 && event.button.y < 715
+					&& event.button.x > 130 && event.button.x < 350)
 					return pvp;
-				if (event.button.y > 720 && event.button.y < 750
-					&& event.button.x > 300 && event.button.x < 440)
-					return dific;
-				if (event.button.y > 660 && event.button.y < 740
-					&& event.button.x > 170 && event.button.x < 250)
+				if (isSelectingDifficult && event.button.y > 605 && event.button.y < 645
+					&& event.button.x > 140 && event.button.x < 340)
+					return normal;
+				if (isSelectingDifficult && event.button.y > 675 && event.button.y < 715
+					&& event.button.x > 180 && event.button.x < 300)
+					return hard;
+				if (event.button.y > 605 && event.button.y < 645
+					&& event.button.x > 140 && event.button.x < 340)
 					return play;
 				if (event.button.y > HEIGHT - 54 && event.button.x < 54)
 					return mus;
@@ -208,7 +218,7 @@ void GUI_SDL::draw(std::vector<piece>& pieces)
 
 	SDL_RenderPresent(_rend);
 }
-
+/*
 void GUI_SDL::new_game(bool hard)
 {
 	SDL_DestroyTexture(_background);
@@ -224,9 +234,33 @@ void GUI_SDL::new_game(bool hard)
 	SDL_RenderClear(_rend);
 	SDL_RenderCopy(_rend, _background, NULL, NULL);
 	draw_dynamic();
+	draw_game_mode_selection();
+	SDL_RenderPresent(_rend);
+} */
+
+void GUI_SDL::new_game(bool isSelectingPvp, bool hard, bool isSelectingGameMode, bool isSelectingDifficulty)
+{
+	SDL_DestroyTexture(_background);
+	_background = IMG_LoadTexture(_rend, "res/start_background.png");
+	if (!_background)
+	{
+		std::cerr << "IMG error: " << IMG_GetError() << std::endl;
+		exit(2);
+	}
+
+	SDL_RenderClear(_rend);
+	SDL_RenderCopy(_rend, _background, NULL, NULL);
+	draw_dynamic();
+	if (isSelectingGameMode && !isSelectingDifficulty) {
+		draw_game_mode_selection(isSelectingPvp);
+	}
+	if (!isSelectingGameMode && isSelectingDifficulty) {
+		draw_difficulty_selection(hard);
+	}
+	
 	SDL_RenderPresent(_rend);
 }
-
+/*
 void GUI_SDL::countdown()
 {
 	//countdown
@@ -244,6 +278,38 @@ void GUI_SDL::countdown()
 		SDL_RenderPresent(_rend);
 		SDL_Delay(1000);
 	}
+} */
+
+void GUI_SDL::clearRend()
+{
+	SDL_RenderClear(_rend);
+}
+
+void GUI_SDL::countdown(int count)
+{
+	_color = { 255, 0, 0 };
+	_dst.y = 260;
+	_dst.x = 190;
+	_dst.h = 160;
+	_dst.w = 100;
+	switch (count)
+	{
+	case 3:
+		_ttf = TTF_RenderText_Solid(_font, "3", _color);
+		break;
+	case 2:
+		_ttf = TTF_RenderText_Solid(_font, "2", _color);
+		break;
+	case 1:
+		_ttf = TTF_RenderText_Solid(_font, "1", _color);
+		break;
+	case 0:
+		_ttf = TTF_RenderText_Solid(_font, "0", _color);
+		break;
+	}
+	_text = SDL_CreateTextureFromSurface(_rend, _ttf);
+	SDL_RenderCopy(_rend, _text, 0, &_dst);
+	SDL_RenderPresent(_rend);
 }
 
 void GUI_SDL::draw_field()
@@ -286,6 +352,163 @@ bool GUI_SDL::change_noise()
 	else
 		Mix_PauseMusic();
 	return _noise;
+}
+
+void GUI_SDL::draw_difficulty_selection(bool hard)
+{
+	_color = { 102, 178, 255 };
+	_dst.y = 510;
+	_dst.x = 45;
+	_dst.h = 70;
+	_dst.w = 390;
+	_ttf = TTF_RenderText_Solid(_font, "Select difficulty", _color);
+	_text = SDL_CreateTextureFromSurface(_rend, _ttf);
+	SDL_RenderCopy(_rend, _text, 0, &_dst);
+	SDL_FreeSurface(_ttf);
+	SDL_DestroyTexture(_text);
+
+	_dst.y = 590;
+	_dst.x = 140;
+	_dst.h = 70;
+	_dst.w = 200;
+	_ttf = TTF_RenderText_Solid(_font, "Normal", _color);
+	_text = SDL_CreateTextureFromSurface(_rend, _ttf);
+	SDL_RenderCopy(_rend, _text, 0, &_dst);
+	SDL_FreeSurface(_ttf);
+	SDL_DestroyTexture(_text);
+
+	_dst.y = 660;
+	_dst.x = 180;
+	_dst.h = 70;
+	_dst.w = 120;
+	_ttf = TTF_RenderText_Solid(_font, "Hard", _color);
+	_text = SDL_CreateTextureFromSurface(_rend, _ttf);
+	SDL_RenderCopy(_rend, _text, 0, &_dst);
+	SDL_FreeSurface(_ttf);
+	SDL_DestroyTexture(_text);
+
+	if (!hard) {
+		// Is selecting Normal
+		_dst.y = 587;
+		_dst.x = 110;
+		_dst.h = 64;
+		_dst.w = 24;
+		_ttf = TTF_RenderText_Solid(_font, "<", _color);
+		_text = SDL_CreateTextureFromSurface(_rend, _ttf);
+		SDL_RenderCopy(_rend, _text, 0, &_dst);
+		SDL_FreeSurface(_ttf);
+		SDL_DestroyTexture(_text);
+
+		_dst.y = 587;
+		_dst.x = 347;
+		_dst.h = 64;
+		_dst.w = 24;
+		_ttf = TTF_RenderText_Solid(_font, ">", _color);
+		_text = SDL_CreateTextureFromSurface(_rend, _ttf);
+		SDL_RenderCopy(_rend, _text, 0, &_dst);
+		SDL_FreeSurface(_ttf);
+		SDL_DestroyTexture(_text);
+	}
+	else {
+		// Is selecting Hard
+		_dst.y = 657;
+		_dst.x = 150;
+		_dst.h = 64;
+		_dst.w = 24;
+		_ttf = TTF_RenderText_Solid(_font, "<", _color);
+		_text = SDL_CreateTextureFromSurface(_rend, _ttf);
+		SDL_RenderCopy(_rend, _text, 0, &_dst);
+		SDL_FreeSurface(_ttf);
+		SDL_DestroyTexture(_text);
+
+		_dst.y = 657;
+		_dst.x = 307;
+		_dst.h = 64;
+		_dst.w = 24;
+		_ttf = TTF_RenderText_Solid(_font, ">", _color);
+		_text = SDL_CreateTextureFromSurface(_rend, _ttf);
+		SDL_RenderCopy(_rend, _text, 0, &_dst);
+		SDL_FreeSurface(_ttf);
+		SDL_DestroyTexture(_text);
+	}
+}
+
+void GUI_SDL::draw_game_mode_selection(bool pvp)
+{
+	_color = { 102, 178, 255 };
+	_dst.y = 510;
+	_dst.x = 45;
+	_dst.h = 70;
+	_dst.w = 390;
+	_ttf = TTF_RenderText_Solid(_font, "Select game mode", _color);
+	_text = SDL_CreateTextureFromSurface(_rend, _ttf);
+	SDL_RenderCopy(_rend, _text, 0, &_dst);
+	SDL_FreeSurface(_ttf);
+	SDL_DestroyTexture(_text);
+
+	_dst.y = 590;
+	_dst.x = 140;
+	_dst.h = 70;
+	_dst.w = 200;
+	_ttf = TTF_RenderText_Solid(_font, "1 player", _color);
+	_text = SDL_CreateTextureFromSurface(_rend, _ttf);
+	SDL_RenderCopy(_rend, _text, 0, &_dst);
+	SDL_FreeSurface(_ttf);
+	SDL_DestroyTexture(_text);
+
+	_dst.y = 660;
+	_dst.x = 130;
+	_dst.h = 70;
+	_dst.w = 220;
+	_ttf = TTF_RenderText_Solid(_font, "2 players", _color);
+	_text = SDL_CreateTextureFromSurface(_rend, _ttf);
+	SDL_RenderCopy(_rend, _text, 0, &_dst);
+	SDL_FreeSurface(_ttf);
+	SDL_DestroyTexture(_text);
+
+	if (!pvp) {
+		// Is selecting 1 player
+		_dst.y = 587;
+		_dst.x = 110;
+		_dst.h = 64;
+		_dst.w = 24;
+		_ttf = TTF_RenderText_Solid(_font, "<", _color);
+		_text = SDL_CreateTextureFromSurface(_rend, _ttf);
+		SDL_RenderCopy(_rend, _text, 0, &_dst);
+		SDL_FreeSurface(_ttf);
+		SDL_DestroyTexture(_text);
+
+		_dst.y = 587;
+		_dst.x = 347;
+		_dst.h = 64;
+		_dst.w = 24;
+		_ttf = TTF_RenderText_Solid(_font, ">", _color);
+		_text = SDL_CreateTextureFromSurface(_rend, _ttf);
+		SDL_RenderCopy(_rend, _text, 0, &_dst);
+		SDL_FreeSurface(_ttf);
+		SDL_DestroyTexture(_text);
+	} else {
+		// Is selecting 2 players
+		_dst.y = 657;
+		_dst.x = 100;
+		_dst.h = 64;
+		_dst.w = 24;
+		_ttf = TTF_RenderText_Solid(_font, "<", _color);
+		_text = SDL_CreateTextureFromSurface(_rend, _ttf);
+		SDL_RenderCopy(_rend, _text, 0, &_dst);
+		SDL_FreeSurface(_ttf);
+		SDL_DestroyTexture(_text);
+
+		_dst.y = 657;
+		_dst.x = 357;
+		_dst.h = 64;
+		_dst.w = 24;
+		_ttf = TTF_RenderText_Solid(_font, ">", _color);
+		_text = SDL_CreateTextureFromSurface(_rend, _ttf);
+		SDL_RenderCopy(_rend, _text, 0, &_dst);
+		SDL_FreeSurface(_ttf);
+		SDL_DestroyTexture(_text);
+	}
 }
 
 void GUI_SDL::draw_dynamic()

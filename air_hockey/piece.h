@@ -20,9 +20,12 @@ enum Event_en
 	nothing,
 	esc,
 	play,
-	dific,
+	normal,
+	hard,
 	mus,
-	menu
+	menu,
+	btn_down_up,
+	btn_enter
 };
 
 struct piece
