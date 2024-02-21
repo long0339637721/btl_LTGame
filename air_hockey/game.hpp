@@ -23,6 +23,6 @@ private:
 	void confines(int type);
 	void extrude();
 	std::unique_ptr<GUI_SDL> _lib;
-	bool _pvp = false , _hard = false, _pvc = false, _mute = true;
+	bool _pvp = false , _hard = false, _pvc = false, _mute = true, _isSelectingDifficult = false, _isSelectingGameMode = true, _isSelectingPvp = true;
 	Event_en _event;
 };
