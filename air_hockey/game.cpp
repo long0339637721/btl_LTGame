@@ -79,8 +79,8 @@ void TinyFootball::hit_ball(int type)
 		--bit;
 	}
 	if (hits)
-		std::cout << "hit \n";
-	//_lib->play_sound(hit);
+		//std::cout << "hit \n";
+		_lib->play_sound(hit);
 }
 
 void TinyFootball::behav_ball()

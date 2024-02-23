@@ -62,13 +62,13 @@ void GUI_SDL::load_img()
 		std::cerr << "IMG error: " << IMG_GetError() << std::endl;
 		exit(2);
 	}
-	_bat1 = IMG_LoadTexture(_rend, "res/bat.png");
+	_bat1 = IMG_LoadTexture(_rend, "res/red.png");
 	if (!_bat1)
 	{
 		std::cerr << "IMG error: " << IMG_GetError() << std::endl;
 		exit(2);
 	}
-	_bat2 = IMG_LoadTexture(_rend, "res/puck.png");
+	_bat2 = IMG_LoadTexture(_rend, "res/blue.png");
 	if (!_bat2)
 	{
 		std::cerr << "IMG error: " << IMG_GetError() << std::endl;
@@ -84,7 +84,7 @@ void GUI_SDL::load_sound()
 		exit(4);
 	}
 
-	_music = Mix_LoadMUS("res/mus.mp3");
+	_music = Mix_LoadMUS("res/reverse_situation.mp3");
 	if (!_music)
 	{
 		std::cerr << "MIX error: " << Mix_GetError() << std::endl;
