@@ -20,7 +20,6 @@ void TinyFootball::begin_pos()
 	double hei = (HEIGHT - SIZE_BAT) / 2;
 	double wid = (WIDTH - SIZE_BAT) / 2;
 
-	_lib->countdown();
 	_lib->draw_field();
 
 	_pieces[1] = { tbot, _pieces[1].score, wid - 50, hei / 2 + 20, wid - 50, hei / 2 + 20, 0, 0 };
@@ -30,6 +29,13 @@ void TinyFootball::begin_pos()
 	_pieces[4] = { tbot, _pieces[4].score, wid + 50,hei + hei / 2 - 20, wid + 50, hei + hei / 2 - 20 , 0, 0 };
 	_pieces[6] = { tbot, _pieces[6].score, wid, hei + hei / 2 + 50, wid, hei + hei / 2 + 50, 0, 0 };
 	_pieces[0] = { tball ,0, wid + 2, hei, wid + 2, hei, 0, 0 };
+
+	for (int i = 3; i >= 0; i--)
+	{
+		_lib->draw(_pieces);
+		_lib->countdown(i);
+		SDL_Delay(1000);
+	}
 }
 
 void TinyFootball::hit_ball(int type)
@@ -116,14 +122,14 @@ void TinyFootball::behav_ball()
 				SDL_Delay(5000);
 				_pieces[5].score = 0; _pieces[6].score = 0;
 				_pvc = _pvp = false;
-				_lib->new_game(_hard);
+				_lib->new_game(_isSelectingPvp, _hard, _isSelectingGameMode, _isSelectingDifficult);
 			}
 			else if (_pieces[6].score == 3) {
 				_lib->win(1);
 				SDL_Delay(5000);
 				_pieces[5].score = 0; _pieces[6].score = 0;
 				_pvc = _pvp = false;
-				_lib->new_game(_hard);
+				_lib->new_game(_isSelectingPvp, _hard, _isSelectingGameMode, _isSelectingDifficult);
 			}
 			else begin_pos();
 
@@ -332,7 +338,7 @@ void TinyFootball::behav_bot()
 
 void TinyFootball::start()
 {
-	_lib->new_game(_hard);
+	_lib->new_game(_isSelectingPvp, _hard, _isSelectingGameMode, _isSelectingDifficult);
 	int player[2] = {5,6};
 	bool quit = false;
 	while (!quit)
@@ -349,7 +355,7 @@ void TinyFootball::start()
 			}
 
 			// menu handler
-			_event = _lib->checkEvent();
+			_event = _lib->checkEvent(_isSelectingGameMode, _isSelectingDifficult);
 			switch (_event)
 			{
 			case nothing:
@@ -361,6 +367,7 @@ void TinyFootball::start()
 				{
 					_pvc = true;
 					_pvp = true;
+					_isSelectingGameMode = false;
 					setgame(tplayer, tplayer);
 					begin_pos();
 					//draw field
@@ -368,8 +375,15 @@ void TinyFootball::start()
 				}
 				break;
 			case play:
+				_isSelectingGameMode = false;
+				_isSelectingDifficult = true;
+				_isSelectingPvp = false;
+				_lib->new_game(_isSelectingPvp, _hard, _isSelectingGameMode, _isSelectingDifficult);
+				break;
+			case normal:
 				if (!_pvc)
 				{
+					_hard = false;
 					_pvp = false;
 					_pvc = true;
 					setgame(tplayer, tbot);
@@ -379,17 +393,86 @@ void TinyFootball::start()
 					_lib->draw_field();
 				}
 				break;
-			case dific:
+			case hard:
 				if (!_pvc)
 				{
+					_hard = true;
+					_pvp = false;
+					_pvc = true;
+					setgame(tplayer, tbot);
+					begin_pos();
+					//draw field
+					_lib->draw_field();
+				}
+				break;
+			case btn_down_up:
+				if (_isSelectingGameMode)
+				{
+					_isSelectingPvp = !_isSelectingPvp;
+				} else if (_isSelectingDifficult)
+				{
 					_hard = !_hard;
-					_lib->new_game(_hard);
+				}
+				_lib->new_game(_isSelectingPvp, _hard, _isSelectingGameMode, _isSelectingDifficult);
+				break;
+			case btn_enter:
+				if (_isSelectingGameMode)
+				{
+					switch (_isSelectingPvp)
+					{
+					case true:
+						if (!_pvp)
+						{
+							_pvc = true;
+							_pvp = true;
+							_isSelectingGameMode = false;
+							setgame(tplayer, tplayer);
+							begin_pos();
+							//draw field
+							_lib->draw_field();
+						}
+						break;
+					case false:
+						_isSelectingGameMode = false;
+						_isSelectingDifficult = true;
+						_isSelectingPvp = false;
+						_lib->new_game(_isSelectingPvp, _hard, _isSelectingGameMode, _isSelectingDifficult);
+						break;
+					}
+				} else if (_isSelectingDifficult)
+				{
+					switch (_hard)
+					{
+					case false:
+						if (!_pvc)
+						{
+							_pvp = false;
+							_pvc = true;
+							setgame(tplayer, tbot);
+							begin_pos();
+
+							//draw field
+							_lib->draw_field();
+						}
+						break;
+					case true:
+						if (!_pvc)
+						{
+							_pvp = false;
+							_pvc = true;
+							setgame(tplayer, tbot);
+							begin_pos();
+							//draw field
+							_lib->draw_field();
+						}
+						break;
+					}
 				}
 				break;
 			case mus:
 				_mute = _lib->change_noise();
 				if (_pvc){
-					_lib->new_game(_hard);
+					_lib->new_game(_isSelectingPvp, _hard, _isSelectingGameMode, _isSelectingDifficult);
 					break;
 				}
 			case menu:
@@ -398,7 +481,7 @@ void TinyFootball::start()
 					_pvc = false;
 					_pieces[5].score = 0;
 					_pieces[6].score = 0;
-					_lib->new_game(_hard);
+					_lib->new_game(_isSelectingPvp, _hard, _isSelectingGameMode, _isSelectingDifficult);
 				}
 				break;
 			}
@@ -783,7 +866,7 @@ void TinyFootball::start()
 					}
 				}
 			}
-
+			
 			if (_pvp)
 			{
 				behav_bot();
@@ -801,7 +884,6 @@ void TinyFootball::start()
 				_lib->draw(_pieces);
 				behav_ball();
 			}
-			
 		}
 	}
 }

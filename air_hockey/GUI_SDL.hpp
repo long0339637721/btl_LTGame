@@ -18,6 +18,7 @@
 #define BLACK_COLOR 0,0,0
 #define RED_COLOR 255,0,0
 #define BLUE_COLOR 0,0,255
+#define WHITE_COLOR 255,255,255
 #define MAX_SPEED SIZE_BALL/2
 #define BOOT_SP 6
 
@@ -27,14 +28,15 @@ public:
 	GUI_SDL();
 	~GUI_SDL();
 
-	void new_game(bool hard);
-	Event_en checkEvent();
+	void new_game(bool pvp, bool hard, bool isSelectingGameMode, bool isSelectingDifficulty);
+	Event_en checkEvent(bool isSelectingGameMode, bool isSelectingDifficulty);
 	void draw( std::vector<piece> & pieces);
 	bool change_noise();
-	void countdown();
+	void countdown(int count);
 	void draw_field();
 	void win(int x);
 	void play_sound(Collision s);
+	void clearRend();
 
 private:
 	
@@ -42,6 +44,8 @@ private:
 	void load_img();
 	void load_sound();
 	void draw_dynamic();
+	void draw_game_mode_selection(bool pvp);
+	void draw_difficulty_selection(bool hard);
 	
 	bool _noise = true;
 	SDL_Window *_win;
