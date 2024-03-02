@@ -1,4 +1,4 @@
-#include "game.hpp"
+                                              #include "game.hpp"
 
 TinyFootball::TinyFootball() : _lib(new GUI_SDL)
 {
@@ -20,7 +20,7 @@ void TinyFootball::begin_pos()
 	double hei = (HEIGHT - SIZE_BAT) / 2;
 	double wid = (WIDTH - SIZE_BAT) / 2;
 
-	_lib->draw_field();
+	_lib->draw_field(_hard);
 
 	_pieces[1] = { tbot, _pieces[1].score, wid - 50, hei / 2 + 20, wid - 50, hei / 2 + 20, 0, 0 };
 	_pieces[3] = { tbot, _pieces[3].score, wid + 50, hei / 2 - 20, wid + 50, hei / 2 - 20 , 0, 0 };
@@ -58,6 +58,9 @@ void TinyFootball::hit_ball(int type)
 			{
 				hits = true;
 				double hyp = hypot(bat.xp - ball.x, bat.yp - ball.y);
+				if (hyp == 0) {
+					hyp = 1;
+				}
 				double sin = (bat.yp - ball.y) / hyp;
 				double cos = (ball.x - bat.xp) / hyp;
 				double nSpeed = ball.xs * cos - ball.ys * sin;
@@ -91,7 +94,7 @@ void TinyFootball::behav_ball()
 
 	ball.x += ball.xs;
 	ball.y += ball.ys;
-
+	
 	hit_ball(1);
 	hit_ball(2);
 	hit_ball(3);
@@ -99,6 +102,16 @@ void TinyFootball::behav_ball()
 	hit_ball(5);
 	hit_ball(6);
 
+	//arrows
+	if (_hard && _lib->checkInArrow(ball.x, ball.y))
+	{
+		std::cout << "reach" << std::endl;
+		//ball.x = (ball.x > wid ? wid * 2 - ball.x : 40 - ball.x);
+		ball.xs = 0;
+		ball.ys = 8;
+		_lib->play_sound(board);
+	}
+	
 	//boards
 	if (ball.x > wid || ball.x < 20)
 	{
@@ -306,7 +319,7 @@ void TinyFootball::behav_bot()
 			else if (distY > distance || speed > distance - SIZE_BALL / 2)
 				_pieces[i].ys = (speed < distY ? speed : distY);
 			else
-				_pieces[i].ys = distY / (distance / speed);
+				_pieces[i].ys = distY / (distance / speed);	
 		}
 		else {
 			if (preY < HEIGHT / 2) {
@@ -353,7 +366,6 @@ void TinyFootball::start()
 					std::cout << "quit \n";
 				}
 			}
-
 			// menu handler
 			_event = _lib->checkEvent(_isSelectingGameMode, _isSelectingDifficult);
 			switch (_event)
@@ -371,7 +383,7 @@ void TinyFootball::start()
 					setgame(tplayer, tplayer);
 					begin_pos();
 					//draw field
-					_lib->draw_field();
+					_lib->draw_field(_hard);
 				}
 				break;
 			case play:
@@ -390,7 +402,7 @@ void TinyFootball::start()
 					begin_pos();
 
 					//draw field
-					_lib->draw_field();
+					_lib->draw_field(_hard);
 				}
 				break;
 			case hard:
@@ -402,7 +414,7 @@ void TinyFootball::start()
 					setgame(tplayer, tbot);
 					begin_pos();
 					//draw field
-					_lib->draw_field();
+					_lib->draw_field(_hard);
 				}
 				break;
 			case btn_down_up:
@@ -429,7 +441,7 @@ void TinyFootball::start()
 							setgame(tplayer, tplayer);
 							begin_pos();
 							//draw field
-							_lib->draw_field();
+							_lib->draw_field(_hard);
 						}
 						break;
 					case false:
@@ -452,7 +464,7 @@ void TinyFootball::start()
 							begin_pos();
 
 							//draw field
-							_lib->draw_field();
+							_lib->draw_field(_hard);
 						}
 						break;
 					case true:
@@ -463,7 +475,7 @@ void TinyFootball::start()
 							setgame(tplayer, tbot);
 							begin_pos();
 							//draw field
-							_lib->draw_field();
+							_lib->draw_field(_hard);
 						}
 						break;
 					}
@@ -880,7 +892,6 @@ void TinyFootball::start()
 				behav_bot();
 				confines(player[0]);
 				confines(player[1]);
-
 				_lib->draw(_pieces);
 				behav_ball();
 			}
