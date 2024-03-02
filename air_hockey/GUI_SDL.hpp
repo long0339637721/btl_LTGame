@@ -33,9 +33,13 @@ public:
 	void draw( std::vector<piece> & pieces);
 	bool change_noise();
 	void countdown(int count);
-	void draw_field();
+	void draw_field(bool isHard);
 	void win(int x);
 	void play_sound(Collision s);
+	int getDirectionalAccumulation(int xVector1, int yVector1, int xVector2, int yVector2);
+	bool isAPBetweenABAndAC(bool isFirstTriangle, int xP, int yP);
+	bool isAPBetweenCAAndCB(bool isFirstTriangle, int xP, int yP);
+	bool checkInArrow(int x, int y);
 	void clearRend();
 
 private:
@@ -48,6 +52,8 @@ private:
 	void draw_difficulty_selection(bool hard);
 	
 	bool _noise = true;
+	const int X_A1 = 40, Y_A1 = 270, X_B1 = 72, Y_B1 = 270, X_C1 = 56, Y_C1 = 300;
+	const int X_A2 = 410, Y_A2 = 270, X_B2 = 442, Y_B2 = 270, X_C2 = 426, Y_C2 = 300;
 	SDL_Window *_win;
 	SDL_Renderer *_rend;
 	SDL_Surface *_ttf;

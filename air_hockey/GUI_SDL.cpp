@@ -132,6 +132,7 @@ Event_en GUI_SDL::checkEvent(bool isSelectingGameMode, bool isSelectingDifficult
 		{
 			if (event.button.button == SDL_BUTTON_LEFT)
 			{
+				std::cout << event.button.x << ", " << event.button.y << std::endl;
 				if (isSelectingGameMode && event.button.y > 675 && event.button.y < 715
 					&& event.button.x > 130 && event.button.x < 350)
 					return pvp;
@@ -312,10 +313,18 @@ void GUI_SDL::countdown(int count)
 	SDL_RenderPresent(_rend);
 }
 
-void GUI_SDL::draw_field()
+void GUI_SDL::draw_field(bool isHard)
 {
 	SDL_DestroyTexture(_background);
-	_background = IMG_LoadTexture(_rend, "res/field1.png");
+	if (isHard)
+	{
+		_background = IMG_LoadTexture(_rend, "res/field2.png");
+	}
+	else
+	{
+		_background = IMG_LoadTexture(_rend, "res/field1.png");
+	}
+	
 	if (!_background)
 	{
 		std::cerr << "IMG error: " << IMG_GetError() << std::endl;
@@ -487,7 +496,8 @@ void GUI_SDL::draw_game_mode_selection(bool pvp)
 		SDL_RenderCopy(_rend, _text, 0, &_dst);
 		SDL_FreeSurface(_ttf);
 		SDL_DestroyTexture(_text);
-	} else {
+	}
+	else {
 		// Is selecting 2 players
 		_dst.y = 657;
 		_dst.x = 100;
@@ -538,6 +548,86 @@ void GUI_SDL::play_sound(Collision s)
 		Mix_PlayChannel(-1, _goal, 0);
 		SDL_Delay(300);
 	}
+}
+
+int GUI_SDL::getDirectionalAccumulation(int xVector1, int yVector1, int xVector2, int yVector2)
+{
+	return xVector1 * yVector2 - yVector1 * xVector2;
+}
+
+bool GUI_SDL::isAPBetweenABAndAC(bool isFirstTriangle, int xP, int yP)
+{
+	int vector1, vector2, vector3;
+	if (isFirstTriangle)
+	{
+		vector1 = getDirectionalAccumulation(X_B1 - X_A1, Y_B1 - Y_A1, X_C1 - X_A1, Y_C1 - Y_A1);
+		vector2 = getDirectionalAccumulation(X_B1 - X_A1, Y_B1 - Y_A1, xP - X_A1, yP - Y_A1);
+		vector3 = getDirectionalAccumulation(xP - X_A1, yP - Y_A1, X_C1 - X_A1, Y_C1 - Y_A1);
+	}
+	else
+	{
+		vector1 = getDirectionalAccumulation(X_B2 - X_A2, Y_B2 - Y_A2, X_C2 - X_A2, Y_C2 - Y_A2);
+		vector2 = getDirectionalAccumulation(X_B2 - X_A2, Y_B2 - Y_A2, xP - X_A2, yP - Y_A2);
+		vector3 = getDirectionalAccumulation(xP - X_A2, yP - Y_A2, X_C2 - X_A2, Y_C2 - Y_A2);
+	}
+	
+	if ((vector1 > 0 && vector2 > 0 && vector3 > 0) || (vector1 < 0 && vector2 < 0 && vector3 < 0))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+bool GUI_SDL::isAPBetweenCAAndCB(bool isFirstTriangle, int xP, int yP)
+{
+	int vector1, vector2, vector3;
+	if (isFirstTriangle)
+	{
+		vector1 = getDirectionalAccumulation(X_B1 - X_C1, Y_B1 - Y_C1, X_A1 - X_C1, Y_A1 - Y_C1);
+		vector2 = getDirectionalAccumulation(X_B1 - X_C1, Y_B1 - Y_C1, xP - X_C1, yP - Y_C1);
+		vector3 = getDirectionalAccumulation(xP - X_C1, yP - Y_C1, X_A1 - X_C1, Y_A1 - Y_C1);
+	}
+	else 
+	{
+		vector1 = getDirectionalAccumulation(X_B2 - X_C2, Y_B2 - Y_C2, X_A2 - X_C2, Y_A2 - Y_C2);
+		vector2 = getDirectionalAccumulation(X_B2 - X_C2, Y_B2 - Y_C2, xP - X_C2, yP - Y_C2);
+		vector3 = getDirectionalAccumulation(xP - X_C2, yP - Y_C2, X_A2 - X_C2, Y_A2 - Y_C2);
+	}
+	
+	if ((vector1 > 0 && vector2 > 0 && vector3 > 0) || (vector1 < 0 && vector2 < 0 && vector3 < 0))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+bool GUI_SDL::checkInArrow(int x, int y)
+{
+	if (((x >= 48) && (x <= 64) && (y >= 240) && (y <= 270)) || ((x >= 417) && (x <= 432) && (y >= 240) && (y <= 270)))
+	{
+		return true;
+	}
+	if ((x > X_A1) && (x < X_B1) && (y > Y_A1) && (y < Y_C1))
+	{
+		if (isAPBetweenABAndAC(true, x, y) && isAPBetweenCAAndCB(true, x, y))
+		{
+			return true;
+		}
+	}
+	if ((x > X_A2) && (x < X_B2) && (y > Y_A2) && (y < Y_C2))
+	{
+		if (isAPBetweenABAndAC(false, x, y) && isAPBetweenCAAndCB(false, x, y))
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
 GUI_SDL::~GUI_SDL()
