@@ -2,5 +2,5 @@
 D:\LapTrinhGame\btl_LTGame\air_hockey\game.cpp(46,10): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
 D:\LapTrinhGame\btl_LTGame\air_hockey\game.cpp(106,46): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
 D:\LapTrinhGame\btl_LTGame\air_hockey\game.cpp(106,38): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-D:\LapTrinhGame\btl_LTGame\air_hockey\game.cpp(173,8): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\LapTrinhGame\btl_LTGame\air_hockey\game.cpp(171,8): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
   air_hockey.vcxproj -> D:\LapTrinhGame\btl_LTGame\air_hockey\x64\Debug\air_hockey.exe
