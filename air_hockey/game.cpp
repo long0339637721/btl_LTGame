@@ -105,8 +105,6 @@ void TinyFootball::behav_ball()
 	//arrows
 	if (_hard && _lib->checkInArrow(ball.x, ball.y))
 	{
-		std::cout << "reach" << std::endl;
-		//ball.x = (ball.x > wid ? wid * 2 - ball.x : 40 - ball.x);
 		ball.xs = 0;
 		ball.ys = 8;
 		_lib->play_sound(board);
@@ -194,20 +192,20 @@ void TinyFootball::confines(int type)
 	piece& bat = _pieces[type];
 	//left player
 	if (type == 1 || type == 2) {
-		if (bat.x > (WIDTH - SIZE_BAT)/2)
+		if (bat.x > (WIDTH - SIZE_BAT)/2 - 10)
 		{
 			//_lib->play_sound(board);
-			bat.x = (WIDTH - SIZE_BAT) / 2;
+			bat.x = (WIDTH - SIZE_BAT) / 2 - 10;
 		}
 		if (bat.x < WID_BORDER)
 		{
 			//_lib->play_sound(board);
 			bat.x = WID_BORDER;
 		}
-		if (bat.y > HEIGHT - (SIZE_BAT / 2) - HEI_BORDER)
+		if (bat.y > HEIGHT - (SIZE_BAT / 2) - HEI_BORDER - 20)
 		{
 			//_lib->play_sound(board);
-			bat.y = HEIGHT - (SIZE_BAT) / 2 - HEI_BORDER;
+			bat.y = HEIGHT - (SIZE_BAT) / 2 - HEI_BORDER - 20;
 		}
 		if (bat.y < (SIZE_BAT / 2) + HEI_BORDER)
 		{
@@ -222,15 +220,15 @@ void TinyFootball::confines(int type)
 			//_lib->play_sound(board);
 			bat.x = (WIDTH - WID_BORDER - SIZE_BAT);
 		}
-		if (bat.x < (WIDTH + SIZE_BAT) / 2)
+		if (bat.x < (WIDTH + SIZE_BAT) / 2 - 15)
 		{
 			//_lib->play_sound(board);
-			bat.x = (WIDTH + SIZE_BAT) / 2;
+			bat.x = (WIDTH + SIZE_BAT) / 2 - 15;
 		}
-		if (bat.y > HEIGHT - (SIZE_BAT / 2) - HEI_BORDER)
+		if (bat.y > HEIGHT - (SIZE_BAT / 2) - HEI_BORDER - 20)
 		{
 			//_lib->play_sound(board);
-			bat.y = HEIGHT - (SIZE_BAT) / 2 - HEI_BORDER;
+			bat.y = HEIGHT - (SIZE_BAT) / 2 - HEI_BORDER - 20;
 		}
 		if (bat.y < (SIZE_BAT / 2) + HEI_BORDER)
 		{

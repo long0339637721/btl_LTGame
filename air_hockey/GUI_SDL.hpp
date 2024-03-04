@@ -10,7 +10,7 @@
 
 #define WIDTH 480
 #define HEIGHT 840
-#define WID_BORDER 20
+#define WID_BORDER 25
 #define HEI_BORDER 50
 #define SIZE_PIECE 542
 #define SIZE_BAT 25
