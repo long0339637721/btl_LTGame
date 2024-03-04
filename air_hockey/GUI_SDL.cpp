@@ -164,11 +164,12 @@ void GUI_SDL::draw(std::vector<piece>& pieces)
 	SDL_RenderCopy(_rend, _background, NULL, NULL);
 
 	_color = { RED_COLOR };
-	_dst.x = 365;
-	_dst.y = 10;
-	_dst.h = 39;
+	_dst.x = 3;
+	_dst.y = 360; 
 
-	_dst.w = 21;
+	_dst.h = 31;
+	_dst.w = 16;
+
 	_ttf = TTF_RenderText_Solid(_font, std::to_string(pieces[5].score).c_str(), _color);
 	_text = SDL_CreateTextureFromSurface(_rend, _ttf);
 	SDL_RenderCopy(_rend, _text, 0, &_dst);
@@ -177,8 +178,8 @@ void GUI_SDL::draw(std::vector<piece>& pieces)
 
 
 	_color = { BLUE_COLOR };
-	_dst.y = 8;
-	_dst.x = 405 ;
+	_dst.x = 3;
+	_dst.y = 450 ;
 	_ttf = TTF_RenderText_Solid(_font, std::to_string(pieces[6].score).c_str(), _color);
 	_text = SDL_CreateTextureFromSurface(_rend, _ttf);
 	SDL_RenderCopy(_rend, _text, 0, &_dst);
@@ -322,7 +323,7 @@ void GUI_SDL::draw_field(bool isHard)
 	}
 	else
 	{
-		_background = IMG_LoadTexture(_rend, "res/field1.png");
+		_background = IMG_LoadTexture(_rend, "res/field1.jpg");
 	}
 	
 	if (!_background)
@@ -341,7 +342,7 @@ void GUI_SDL::win(int x)
 	SDL_DestroyTexture(_background);
 	SDL_RenderClear(_rend);
 	SDL_RenderCopy(_rend, _background, NULL, NULL);
-	_background = IMG_LoadTexture(_rend, (x == 1 ? "res/bwin.png" : "res/rwin.png"));
+	_background = IMG_LoadTexture(_rend, (x == 1 ? "res/bluewin.jpg" : "res/redwin.jpg"));
 	if (!_background)
 	{
 		std::cerr << "IMG error: " << IMG_GetError() << std::endl;

@@ -1,6 +1,16 @@
-﻿  game.cpp
-D:\LapTrinhGame\btl_LTGame\air_hockey\game.cpp(46,10): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\LapTrinhGame\btl_LTGame\air_hockey\game.cpp(106,46): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-D:\LapTrinhGame\btl_LTGame\air_hockey\game.cpp(106,38): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-D:\LapTrinhGame\btl_LTGame\air_hockey\game.cpp(171,8): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-  air_hockey.vcxproj -> D:\LapTrinhGame\btl_LTGame\air_hockey\x64\Debug\air_hockey.exe
+﻿  GUI_SDL.cpp
+C:\Users\cobeq\OneDrive\Desktop\btl_LTGame\air_hockey\GUI_SDL.cpp(190,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\cobeq\OneDrive\Desktop\btl_LTGame\air_hockey\GUI_SDL.cpp(191,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\cobeq\OneDrive\Desktop\btl_LTGame\air_hockey\GUI_SDL.cpp(195,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\cobeq\OneDrive\Desktop\btl_LTGame\air_hockey\GUI_SDL.cpp(196,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\cobeq\OneDrive\Desktop\btl_LTGame\air_hockey\GUI_SDL.cpp(199,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\cobeq\OneDrive\Desktop\btl_LTGame\air_hockey\GUI_SDL.cpp(200,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\cobeq\OneDrive\Desktop\btl_LTGame\air_hockey\GUI_SDL.cpp(203,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\cobeq\OneDrive\Desktop\btl_LTGame\air_hockey\GUI_SDL.cpp(204,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\cobeq\OneDrive\Desktop\btl_LTGame\air_hockey\GUI_SDL.cpp(207,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\cobeq\OneDrive\Desktop\btl_LTGame\air_hockey\GUI_SDL.cpp(208,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\cobeq\OneDrive\Desktop\btl_LTGame\air_hockey\GUI_SDL.cpp(211,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\cobeq\OneDrive\Desktop\btl_LTGame\air_hockey\GUI_SDL.cpp(212,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\cobeq\OneDrive\Desktop\btl_LTGame\air_hockey\GUI_SDL.cpp(215,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\cobeq\OneDrive\Desktop\btl_LTGame\air_hockey\GUI_SDL.cpp(216,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+  air_hockey.vcxproj -> C:\Users\cobeq\OneDrive\Desktop\btl_LTGame\air_hockey\x64\Debug\air_hockey.exe
