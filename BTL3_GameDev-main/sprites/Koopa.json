@@ -1,0 +1,88 @@
+{
+  "spriteSheetURL": "./img/Mob/Snail/all.png",
+  "type": "character",
+  "size": [35, 22],
+  "sprites": [
+    {
+      "name": "koopa-1",
+      "x": 2,
+      "y": 8,
+      "scalefactor": 2,
+      "colorKey": -1,
+      "collision": false
+    },
+    {
+      "name": "koopa-2",
+      "x": 51,
+      "y": 8,
+      "scalefactor": 2,
+      "colorKey": -1,
+      "collision": false
+    },
+    {
+      "name": "koopa-3",
+      "x": 100,
+      "y": 8,
+      "scalefactor": 2,
+      "colorKey": -1,
+      "collision": false
+    },
+    {
+      "name": "koopa-4",
+      "x": 154,
+      "y": 8,
+      "scalefactor": 2,
+      "colorKey": -1,
+      "collision": false
+    },
+    {
+      "name": "koopa-5",
+      "x": 192,
+      "y": 8,
+      "scalefactor": 2,
+      "colorKey": -1,
+      "collision": false
+    },
+    {
+      "name": "koopa-6",
+      "x": 239,
+      "y": 8,
+      "scalefactor": 2,
+      "colorKey": -1,
+      "collision": false
+    },
+    {
+      "name": "koopa-7",
+      "x": 289,
+      "y": 8,
+      "scalefactor": 2,
+      "colorKey": -1,
+      "collision": false
+    },
+    {
+      "name": "koopa-8",
+      "x": 337,
+      "y": 8,
+      "scalefactor": 2,
+      "colorKey": -1,
+      "collision": false
+    },
+
+    {
+      "name": "koopa-hiding",
+      "x": 350,
+      "y": 105,
+      "scalefactor": 2,
+      "colorKey": -1,
+      "collision": false
+    },
+    {
+      "name": "koopa-hiding-with-legs",
+      "x": 149,
+      "y": 206,
+      "scalefactor": 2,
+      "colorKey": -1,
+      "collision": false
+    }
+  ]
+}

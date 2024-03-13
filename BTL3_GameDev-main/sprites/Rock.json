@@ -1,0 +1,39 @@
+{
+    "spriteSheetURL": "./img/Assets/Props-Rocks.png",
+    "type":"background",
+    "size":[16,16],
+    "sprites":[
+        {
+            "name":"rock1-1",
+            "x":4,
+            "y":0,
+            "redrawBg":true,
+            "scalefactor":2,
+            "collision":true
+        },
+        {
+            "name":"rock1-3",
+            "x":4,
+            "y":1,
+            "redrawBg":true,
+            "scalefactor":2,
+            "collision":true
+        },
+        {
+            "name":"rock1-2",
+            "x":5,
+            "y":0,
+            "redrawBg":true,
+            "scalefactor":2,
+            "collision":true
+        },
+        {
+            "name":"rock1-4",
+            "x":5,
+            "y":1,
+            "redrawBg":true,
+            "scalefactor":2,
+            "collision":true
+        }
+    ]
+}

@@ -1,0 +1,264 @@
+{
+    "spriteSheetURL": "./img/Character/character-all.png",
+    "type":"character",
+    "size":[35,60],
+    "sprites":[
+        {
+            "name":"mario_idle",
+            "x":22,
+            "y":200,
+            "scalefactor":2,
+            "colorKey":-1,
+            "collision":false
+        },
+        {
+            "name":"mario_run1",
+            "x":28,
+            "y":394,
+            "scalefactor":2,
+            "colorKey":-1,
+            "collision":false,
+            "xsize": 35,
+            "ysize": 60
+           
+        },
+        {
+            "name":"mario_run2",
+            "x":108,
+            "y":394,
+            "scalefactor":2,
+            "colorKey":-1,
+            "collision":false,
+            "xsize": 35,
+            "ysize": 60
+        },
+        {
+            "name":"mario_run3",
+            "x":188,
+            "y":394,
+            "scalefactor":2,
+            "colorKey":-1,
+            "collision":false,
+            "xsize": 35,
+            "ysize": 60
+        },
+        {
+            "name":"mario_run4",
+            "x":268,
+            "y":394,
+            "scalefactor":2,
+            "colorKey":-1,
+            "collision":false,
+            "xsize": 35,
+            "ysize": 60
+        },
+        {
+            "name":"mario_run5",
+            "x":348,
+            "y":394,
+            "scalefactor":2,
+            "colorKey":-1,
+            "collision":false,
+            "xsize": 35,
+            "ysize": 60
+        },
+        {
+            "name":"mario_run6",
+            "x":428,
+            "y":394,
+            "scalefactor":2,
+            "colorKey":-1,
+            "collision":false,
+            "xsize": 35,
+            "ysize": 60
+        },
+        {
+            "name":"mario_run7",
+            "x":508,
+            "y":394,
+            "scalefactor":2,
+            "colorKey":-1,
+            "collision":false,
+            "xsize": 35,
+            "ysize": 60
+        },
+        {
+            "name":"mario_run8",
+            "x":588,
+            "y":394,
+            "scalefactor":2,
+            "colorKey":-1,
+            "collision":false,
+            "xsize": 35,
+            "ysize": 60
+        },
+        {
+            "name":"mario_break",
+            "x":337,
+            "y":44,
+            "scalefactor":2,
+            "colorKey":-1,
+            "collision":false
+        },
+        {
+            "name":"mario_jump",
+            "x":392,
+            "y":301,
+            "scalefactor":2,
+            "colorKey":-1,
+            "collision":false,
+            "xsize": 35,
+            "ysize": 60
+        },
+        {
+            "name":"mario_dead",
+            "x":355,
+            "y":44,
+            "scalefactor":2,
+            "colorKey":-1,
+            "collision":false
+
+        },
+        {
+            "name":"mario_attack1",
+            "x":8,
+            "y":0,
+            "scalefactor":2,
+            "colorKey":-1,
+            "collision":false,
+            "xsize": 76,
+            "ysize": 76
+        },
+        {
+            "name":"mario_attack2",
+            "x":108,
+            "y":0,
+            "scalefactor":2,
+            "colorKey":-1,
+            "collision":false,
+            "xsize": 76,
+            "ysize": 76
+        },
+        {
+            "name":"mario_attack3",
+            "x":203,
+            "y":0,
+            "scalefactor":2,
+            "colorKey":-1,
+            "collision":false,
+            "xsize": 76,
+            "ysize": 76
+        },
+        {
+            "name":"mario_attack4",
+            "x":299,
+            "y":0,
+            "scalefactor":2,
+            "colorKey":-1,
+            "collision":false,
+            "xsize": 76,
+            "ysize": 76
+        },
+        {
+            "name":"mario_attack5",
+            "x":395,
+            "y":0,
+            "scalefactor":2,
+            "colorKey":-1,
+            "collision":false,
+            "xsize": 76,
+            "ysize": 76
+        },
+        {
+            "name":"mario_attack6",
+            "x":488,
+            "y":0,
+            "scalefactor":2,
+            "colorKey":-1,
+            "collision":false,
+            "xsize": 76,
+            "ysize": 76
+        },
+        {
+            "name":"mario_attack7",
+            "x":584,
+            "y":0,
+            "scalefactor":2,
+            "colorKey":-1,
+            "collision":false,
+            "xsize": 76,
+            "ysize": 76
+        },
+        {
+            "name":"mario_attack8",
+            "x":680,
+            "y":0,
+            "scalefactor":2,
+            "colorKey":-1,
+            "collision":false,
+            "xsize": 76,
+            "ysize": 76
+        },
+        {
+            "name":"mario_big_idle",
+            "x":259,
+            "y":1,
+            "scalefactor":2,
+            "colorKey":-1,
+            "collision":false,
+            "xsize":16,
+            "ysize":32
+        },
+        {
+            "name":"mario_big_run1",
+            "x":296,
+            "y":1,
+            "scalefactor":2,
+            "colorKey":-1,
+            "collision":false,
+            "xsize":16,
+            "ysize":32
+        },
+        {
+            "name":"mario_big_run2",
+            "x":315,
+            "y":1,
+            "scalefactor":2,
+            "colorKey":-1,
+            "collision":false,
+            "xsize":16,
+            "ysize":32
+        },
+        {
+            "name":"mario_big_run3",
+            "x":332,
+            "y":1,
+            "scalefactor":2,
+            "colorKey":-1,
+            "collision":false,
+            "xsize":16,
+            "ysize":32
+        },
+        {
+            "name":"mario_big_jump",
+            "x":369,
+            "y":1,
+            "scalefactor":2,
+            "colorKey":-1,
+            "collision":false,
+            "xsize":16,
+            "ysize":32
+        },
+        {
+            "name":"mario_big_break",
+            "x":369,
+            "y":1,
+            "scalefactor":2,
+            "colorKey":-1,
+            "collision":false,
+            "xsize":16,
+            "ysize":32
+        }
+    ]
+}
+

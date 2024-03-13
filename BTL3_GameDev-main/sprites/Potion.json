@@ -1,0 +1,15 @@
+{
+    "spriteSheetURL": "./img/Assets/Tiles.png",
+    "type":"character",
+    "sprites":[
+        {
+            "name":"potion",
+            "x":15,
+            "y":24,
+            "scalefactor":2,
+            "colorKey":-1,
+            "collision":false
+        }
+    ]
+}
+

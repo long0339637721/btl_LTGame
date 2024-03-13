@@ -1,0 +1,63 @@
+{
+  "spriteSheetURL": "./img/Mob/Boar/Run/Run-Sheet-White.png",
+  "type": "character",
+  "size": [40, 32],
+  "sprites": [
+    {
+      "name": "goomba-1",
+      "x": 3,
+      "y": 0,
+      "scalefactor": 2,
+      "colorKey": -1,
+      "collision": false
+    },
+    {
+      "name": "goomba-2",
+      "x": 51,
+      "y": 0,
+      "scalefactor": 2,
+      "colorKey": -1,
+      "collision": false
+    },
+    {
+      "name": "goomba-3",
+      "x": 100,
+      "y": 0,
+      "scalefactor": 2,
+      "colorKey": -1,
+      "collision": false
+    },
+    {
+      "name": "goomba-4",
+      "x": 146,
+      "y": 0,
+      "scalefactor": 2,
+      "colorKey": -1,
+      "collision": false
+    },
+    {
+      "name": "goomba-5",
+      "x": 194,
+      "y": 0,
+      "scalefactor": 2,
+      "colorKey": -1,
+      "collision": false
+    },
+    {
+      "name": "goomba-6",
+      "x": 241,
+      "y": 0,
+      "scalefactor": 2,
+      "colorKey": -1,
+      "collision": false
+    },
+    {
+      "name": "goomba-flat",
+      "x": 277,
+      "y": 187,
+      "scalefactor": 2,
+      "colorKey": -1,
+      "collision": false
+    }
+  ]
+}

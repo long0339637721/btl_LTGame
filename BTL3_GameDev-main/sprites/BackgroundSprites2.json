@@ -1,0 +1,130 @@
+{
+    "spriteSheetURL": "./img/Assets/Tiles.png",
+    "type":"background",
+    "sprites":[
+        {
+            "name":"grass",
+            "x":1,
+            "y":1,
+            "redrawBg":true,
+            "scalefactor":2,
+            "collision":true
+        },
+        {
+            "name":"ground",
+            "x":1,
+            "y":2,
+            "redrawBg":false,
+            "scalefactor":2,
+            "collision":true
+        },
+        {
+            "name":"ground_boss",
+            "x":10,
+            "y":12,
+            "redrawBg":false,
+            "scalefactor":2,
+            "collision":true
+        },
+        {
+            "name":"bush_1",
+            "x":20,
+            "y":0,
+            "redrawBg":true,
+            "scalefactor":2,
+            "collision":false,
+            "colorKey": [0,0,0]
+        },
+        {
+            "name":"bush_2",
+            "x":21,
+            "y":0,
+            "redrawBg":true,
+            "scalefactor":2,
+            "collision":false,
+            "colorKey": [0,0,0]
+        },
+        {
+            "name":"bush_3",
+            "x":22,
+            "y":0,
+            "redrawBg":true,
+            "scalefactor":2,
+            "collision":false,
+            "colorKey": [0,0,0]
+        },
+        {
+            "name":"potion",
+            "x":15,
+            "y":22,
+            "redrawBg":true,
+            "scalefactor":2,
+            "collision":false,
+            "colorKey": [0,0,0]
+        },
+        {
+            "name":"brick",
+            "x":11,
+            "y":13,
+            "redrawBg":true,
+            "scalefactor":2,
+            "collision":false,
+            "colorKey": [0,0,0]
+        },
+        {
+            "name":"pipeL",
+            "x":4,
+            "y":13,
+            "redrawBg":true,
+            "scalefactor":2,
+            "collision":true
+        },
+        {
+            "name":"pipeR",
+            "x":5,
+            "y":13,
+            "scalefactor":2,
+            "collision":true,
+            "redrawBg":true,
+            "colorKey": [0,0,0]
+        },
+        {
+            "name":"pipe2L",
+            "x":4,
+            "y":14,
+            "redrawBg":true,
+            "scalefactor":2,
+            "collision":true,
+            "colorKey": [0,0,0]
+        },
+        {
+            "name":"pipe2R",
+            "x":5,
+            "y":14,
+            "redrawBg":true,
+            "scalefactor":2,
+            "collision":true,
+            "colorKey": [0,0,0]
+        },
+        {
+            "name":"pot1",
+            "x":23,
+            "y":19,
+            "redrawBg":true,
+            "scalefactor":2,
+            "collision":true,
+            "colorKey": [0,0,0]
+        },
+        {
+            "name":"pot2",
+            "x":24,
+            "y":19,
+            "redrawBg":true,
+            "scalefactor":2,
+            "collision":true,
+            "colorKey": [0,0,0]
+        }
+    ] 
+}
+
+
