@@ -1,0 +1,32 @@
+{
+    "spriteSheetURL": "./img/Character-2/jump/spritesheet_jump_1x.png",
+    "type": "character",
+    "size": [50, 65],
+    "sprites": [
+      {
+        "name": "character-jump-1",
+        "x": 178,
+        "y": 10,
+        "scalefactor": 1.5,
+        "colorKey": -1,
+        "collision": false
+      },
+      {
+        "name": "character-jump-2",
+        "x": 316,
+        "y": 10,
+        "scalefactor": 1.5,
+        "colorKey": -1,
+        "collision": false
+      },
+      {
+        "name": "character-jump-3",
+        "x": 453,
+        "y": 10,
+        "scalefactor": 1.5,
+        "colorKey": -1,
+        "collision": false
+      }
+    ]
+  }
+  

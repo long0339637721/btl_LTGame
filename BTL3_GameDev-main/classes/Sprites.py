@@ -9,6 +9,10 @@ class Sprites:
     def __init__(self):
         self.spriteCollection = self.loadSprites(
             [
+                "./sprites/CharacterIdle.json",
+                "./sprites/CharacterRun.json",
+                "./sprites/CharacterJump.json",
+                "./sprites/CharacterAttack.json",
                 "./sprites/Mario.json",
                 "./sprites/Goomba.json",
                 "./sprites/Koopa.json",
