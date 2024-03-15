@@ -1,82 +1,28 @@
 import pygame, sys
+import os
 
 class Boss(pygame.sprite.Sprite):
 	def __init__(self, pos_x, pos_y, Fire_ball, move_sprite, screen, camera,mario):
 		super().__init__()
-		self.x=pos_x*32
-		self.y=pos_y*32
+		self.x=pos_x*37
+		self.y=pos_y*37
 		self.target_x=0
 		self.camera = camera
 		self.screen =screen
 		self.mario=mario
 		self.fire_ball = Fire_ball
 		self.sprite_group = move_sprite
-
-		self.scale= 1
 		
-		self.sprites_idle = []
-		self.sprites_idle.append(pygame.image.load('./Boss/01_demon_idle/demon_idle_1.png'))
-		self.sprites_idle.append(pygame.image.load('./Boss/01_demon_idle/demon_idle_2.png'))
-		self.sprites_idle.append(pygame.image.load('./Boss/01_demon_idle/demon_idle_3.png'))
-		self.sprites_idle.append(pygame.image.load('./Boss/01_demon_idle/demon_idle_4.png'))
-		self.sprites_idle.append(pygame.image.load('./Boss/01_demon_idle/demon_idle_5.png'))
-		self.sprites_idle.append(pygame.image.load('./Boss/01_demon_idle/demon_idle_6.png'))
+		self.scale= 1
+		self.initial_scale = self.scale  # Save initial scale
+		
+		
+		self.sprites_idle = self.load_images('./new_Boss/1_idle/', scale_factor=2)
+		self.sprites_walk = self.load_images('./new_Boss/2_walk/', scale_factor=2)
+		self.sprites_attack = self.load_images('./new_Boss/3_atk/', scale_factor=2)
+		self.sprites_death = self.load_images('./new_Boss/5_death/', scale_factor=2)
 
-		self.sprites_death = []
-		self.sprites_death.append(pygame.image.load('./Boss/05_demon_death/demon_death_1.png'))
-		self.sprites_death.append(pygame.image.load('./Boss/05_demon_death/demon_death_2.png'))
-		self.sprites_death.append(pygame.image.load('./Boss/05_demon_death/demon_death_3.png'))
-		self.sprites_death.append(pygame.image.load('./Boss/05_demon_death/demon_death_4.png'))
-		self.sprites_death.append(pygame.image.load('./Boss/05_demon_death/demon_death_5.png'))
-		self.sprites_death.append(pygame.image.load('./Boss/05_demon_death/demon_death_6.png'))
-		self.sprites_death.append(pygame.image.load('./Boss/05_demon_death/demon_death_7.png'))
-		self.sprites_death.append(pygame.image.load('./Boss/05_demon_death/demon_death_8.png'))
-		self.sprites_death.append(pygame.image.load('./Boss/05_demon_death/demon_death_9.png'))
-		self.sprites_death.append(pygame.image.load('./Boss/05_demon_death/demon_death_10.png'))
-		self.sprites_death.append(pygame.image.load('./Boss/05_demon_death/demon_death_11.png'))
-		self.sprites_death.append(pygame.image.load('./Boss/05_demon_death/demon_death_12.png'))
-		self.sprites_death.append(pygame.image.load('./Boss/05_demon_death/demon_death_13.png'))
-		self.sprites_death.append(pygame.image.load('./Boss/05_demon_death/demon_death_14.png'))
-		self.sprites_death.append(pygame.image.load('./Boss/05_demon_death/demon_death_15.png'))
-		self.sprites_death.append(pygame.image.load('./Boss/05_demon_death/demon_death_16.png'))
-		self.sprites_death.append(pygame.image.load('./Boss/05_demon_death/demon_death_17.png'))
-		self.sprites_death.append(pygame.image.load('./Boss/05_demon_death/demon_death_18.png'))
-		self.sprites_death.append(pygame.image.load('./Boss/05_demon_death/demon_death_19.png'))
-		self.sprites_death.append(pygame.image.load('./Boss/05_demon_death/demon_death_20.png'))
-		self.sprites_death.append(pygame.image.load('./Boss/05_demon_death/demon_death_21.png'))
-		self.sprites_death.append(pygame.image.load('./Boss/05_demon_death/demon_death_22.png'))
-
-		self.sprites_walk = []
-		self.sprites_walk.append(pygame.image.load('./Boss/02_demon_walk/demon_walk_1.png'))
-		self.sprites_walk.append(pygame.image.load('./Boss/02_demon_walk/demon_walk_2.png'))
-		self.sprites_walk.append(pygame.image.load('./Boss/02_demon_walk/demon_walk_3.png'))
-		self.sprites_walk.append(pygame.image.load('./Boss/02_demon_walk/demon_walk_4.png'))
-		self.sprites_walk.append(pygame.image.load('./Boss/02_demon_walk/demon_walk_5.png'))
-		self.sprites_walk.append(pygame.image.load('./Boss/02_demon_walk/demon_walk_6.png'))
-		self.sprites_walk.append(pygame.image.load('./Boss/02_demon_walk/demon_walk_7.png'))
-		self.sprites_walk.append(pygame.image.load('./Boss/02_demon_walk/demon_walk_8.png'))
-		self.sprites_walk.append(pygame.image.load('./Boss/02_demon_walk/demon_walk_9.png'))
-		self.sprites_walk.append(pygame.image.load('./Boss/02_demon_walk/demon_walk_10.png'))
-		self.sprites_walk.append(pygame.image.load('./Boss/02_demon_walk/demon_walk_11.png'))
-		self.sprites_walk.append(pygame.image.load('./Boss/02_demon_walk/demon_walk_12.png'))
-
-		self.sprites_attack = []
-		self.sprites_attack.append(pygame.image.load('./Boss/03_demon_cleave/demon_cleave_1.png'))
-		self.sprites_attack.append(pygame.image.load('./Boss/03_demon_cleave/demon_cleave_2.png'))
-		self.sprites_attack.append(pygame.image.load('./Boss/03_demon_cleave/demon_cleave_3.png'))
-		self.sprites_attack.append(pygame.image.load('./Boss/03_demon_cleave/demon_cleave_4.png'))
-		self.sprites_attack.append(pygame.image.load('./Boss/03_demon_cleave/demon_cleave_5.png'))
-		self.sprites_attack.append(pygame.image.load('./Boss/03_demon_cleave/demon_cleave_6.png'))
-		self.sprites_attack.append(pygame.image.load('./Boss/03_demon_cleave/demon_cleave_7.png'))
-		self.sprites_attack.append(pygame.image.load('./Boss/03_demon_cleave/demon_cleave_8.png'))
-		self.sprites_attack.append(pygame.image.load('./Boss/03_demon_cleave/demon_cleave_9.png'))
-		self.sprites_attack.append(pygame.image.load('./Boss/03_demon_cleave/demon_cleave_10.png'))
-		self.sprites_attack.append(pygame.image.load('./Boss/03_demon_cleave/demon_cleave_11.png'))
-		self.sprites_attack.append(pygame.image.load('./Boss/03_demon_cleave/demon_cleave_12.png'))
-		self.sprites_attack.append(pygame.image.load('./Boss/03_demon_cleave/demon_cleave_13.png'))
-		self.sprites_attack.append(pygame.image.load('./Boss/03_demon_cleave/demon_cleave_14.png'))
-		self.sprites_attack.append(pygame.image.load('./Boss/03_demon_cleave/demon_cleave_15.png'))
-
+		
 
 		self.attack_animation = False
 		self.attack_normal_animation = False
@@ -152,8 +98,8 @@ class Boss(pygame.sprite.Sprite):
 
 	def draw_health(self):
 		if self.death_animation == False:
-			pygame.draw.rect(self.screen, (255,0,0), (self.x + 100 + self.camera.x, self.y - 10, 100, 10))
-			pygame.draw.rect(self.screen, (0,128,0), (self.x + 100 + self.camera.x, self.y - 10, 100 - (10 * (10 - self.health/10)), 10))
+			pygame.draw.rect(self.screen, (255,0,0), (self.x + 150 + self.camera.x, self.y - 10, 100, 10))
+			pygame.draw.rect(self.screen, (0,128,0), (self.x + 150 + self.camera.x, self.y - 10, 100 - (10 * (10 - self.health/10)), 10))
 
 	def Check_scale(self):
 		if self.target_x > self.x + 125:
@@ -283,4 +229,19 @@ class Boss(pygame.sprite.Sprite):
 				self.image = self.sprites_death[int(self.current_sprite_death)]
 			else:
 				self.image = pygame.transform.flip(self.sprites_death[int(self.current_sprite_death)], True, False)
+
+	def load_images(self, path, scale_factor=1.8):
+		images = []
+		file_list = sorted(os.listdir(path))  # Sort files alphabetically
+		for filename in file_list:
+			image_path = os.path.join(path, filename)
+			if os.path.isfile(image_path):
+				image = pygame.image.load(image_path)
+				# Scale up the image
+				width, height = image.get_size()
+				scaled_image = pygame.transform.scale(image, (width*scale_factor, height*scale_factor))
+				images.append(scaled_image)
+		return images
+
+
 		
