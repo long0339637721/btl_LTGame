@@ -1,0 +1,140 @@
+{
+    "spriteSheetURL": "./img/Character-2/attack/spritesheet_attack_1x.png",
+    "type": "character",
+    "size": [65, 65],
+    "sprites": [
+      {
+        "name": "character-attack-1",
+        "x": 17,
+        "y": 8,
+        "scalefactor": 1.5,
+        "colorKey": -1,
+        "collision": false,
+        "xsize": 70,
+        "ysize": 65
+      },
+      {
+        "name": "character-attack-2",
+        "x": 154,
+        "y": 8,
+        "scalefactor": 1.5,
+        "colorKey": -1,
+        "collision": false,
+        "xsize": 70,
+        "ysize": 65
+      },
+      {
+        "name": "character-attack-3",
+        "x": 318,
+        "y": 8,
+        "scalefactor": 1.5,
+        "colorKey": -1,
+        "collision": false,
+        "xsize": 80,
+        "ysize": 72
+      },
+      {
+        "name": "character-attack-4",
+        "x": 451,
+        "y": 8,
+        "scalefactor": 1.5,
+        "colorKey": -1,
+        "collision": false
+      },
+      {
+        "name": "character-attack-5",
+        "x": 585,
+        "y": 8,
+        "scalefactor": 1.5,
+        "colorKey": -1,
+        "collision": false,
+        "xsize": 48,
+        "ysize": 72
+      },
+      {
+        "name": "character-attack-6",
+        "x": 720,
+        "y": 8,
+        "scalefactor": 1.5,
+        "colorKey": -1,
+        "collision": false,
+        "xsize": 48,
+        "ysize": 72
+      },
+      {
+        "name": "character-attack-7",
+        "x": 840,
+        "y": 8,
+        "scalefactor": 1.5,
+        "colorKey": -1,
+        "collision": false,
+        "xsize": 110,
+        "ysize": 72
+      },
+      {
+        "name": "character-attack-8",
+        "x": 975,
+        "y": 8,
+        "scalefactor": 1.5,
+        "colorKey": -1,
+        "collision": false
+      },
+      {
+        "name": "character-attack-9",
+        "x": 1115,
+        "y": 8,
+        "scalefactor": 1.5,
+        "colorKey": -1,
+        "collision": false
+      },
+      {
+        "name": "character-attack-10",
+        "x": 1263,
+        "y": 8,
+        "scalefactor": 1.5,
+        "colorKey": -1,
+        "collision": false,
+        "xsize": 50,
+        "ysize": 72
+      },
+      {
+        "name": "character-attack-11",
+        "x": 1395,
+        "y": 8,
+        "scalefactor": 1.5,
+        "colorKey": -1,
+        "collision": false,
+        "xsize": 55,
+        "ysize": 72
+      },
+      {
+        "name": "character-attack-12",
+        "x": 1525,
+        "y": 8,
+        "scalefactor": 1.5,
+        "colorKey": -1,
+        "collision": false,
+        "xsize": 100,
+        "ysize": 72
+      },
+      {
+        "name": "character-attack-13",
+        "x": 1670,
+        "y": 8,
+        "scalefactor": 1.5,
+        "colorKey": -1,
+        "collision": false,
+        "xsize": 85,
+        "ysize": 72
+      },
+      {
+        "name": "character-attack-14",
+        "x": 1805,
+        "y": 8,
+        "scalefactor": 1.5,
+        "colorKey": -1,
+        "collision": false
+      }
+    ]
+  }
+  
