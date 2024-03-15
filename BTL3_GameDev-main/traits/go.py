@@ -13,6 +13,7 @@ class GoTrait:
         self.boost = False
         self.camera = camera
         self.entity = ent
+        self.preY = 288
 
     def update(self):
         if self.boost:
@@ -36,7 +37,11 @@ class GoTrait:
             if not self.entity.inAir:
                 self.animation.update()
             else:
-                self.animation.inAir()
+                if (self.entity.getPos()[1] < self.preY):
+                        self.animation.inAir(1)
+                else:
+                    self.animation.inAir(2)
+                self.preY = self.entity.getPos()[1]
         else:
             self.animation.update()
             if self.entity.vel.x >= 0:
@@ -46,11 +51,17 @@ class GoTrait:
             if int(self.entity.vel.x) == 0:
                 self.entity.vel.x = 0
                 if self.entity.inAir:
-                    self.animation.inAir()
+                    if (self.entity.getPos()[1] < self.preY):
+                        self.animation.inAir(1)
+                    else:
+                        self.animation.inAir(2)
+                    self.preY = self.entity.getPos()[1]
                 elif self.entity.inAttack:
                     self.animation.inAttack()
+                    self.startJumping = False
                 else:
                     self.animation.idle()
+                    self.startJumping = False
         if (self.entity.invincibilityFrames//2) % 2 == 0:
             self.drawEntity()
 
@@ -64,7 +75,7 @@ class GoTrait:
             if self.animation.state == 2:
                 position =(self.entity.getPos()[0] - 16 , self.entity.getPos()[1])
             elif self.animation.state == 3:
-                position =(self.entity.getPos()[0] - 62 , self.entity.getPos()[1] - 30)
+                position =(self.entity.getPos()[0] - 8 , self.entity.getPos()[1] - 4)
             self.screen.blit(self.animation.image, position)
         elif self.heading == -1:
             if self.animation.state == 0:
@@ -74,7 +85,7 @@ class GoTrait:
             elif self.animation.state == 1:
                 position = (self.entity.getPos()[0] - 35 , self.entity.getPos()[1])
             elif self.animation.state == 3:
-                position =(self.entity.getPos()[0] - 54 , self.entity.getPos()[1] - 30)
+                position =(self.entity.getPos()[0] - 60 , self.entity.getPos()[1] - 4)
             self.screen.blit(
                 flip(self.animation.image, True, False), position
             )

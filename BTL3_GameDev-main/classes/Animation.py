@@ -19,15 +19,21 @@ class Animation:
             else:
                 self.index = 0
         self.image = self.images[self.index]
-        self.state = 0
+        # self.state = 0
 
     def idle(self):
         self.state = 1
-        self.image = self.idleSprite
+        # self.image = self.idleSprite
+        # if (self.idleSprite):
+        self.image = self.idleSprite[self.index % len(self.idleSprite)]
 
-    def inAir(self):
+    def inAir(self, jumpState):
         self.state = 2
-        self.image = self.airSprite
+        # self.image = self.airSprite
+        if (jumpState == 1):
+            self.image = self.airSprite[0]
+        if (jumpState == 2):
+            self.image = self.airSprite[1]
     
     def inAttack(self):
         self.state = 3
