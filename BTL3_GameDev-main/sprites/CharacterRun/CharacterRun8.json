@@ -1,0 +1,15 @@
+{
+    "spriteSheetURL": "./img/Character-3/run/run_8.png",
+    "type": "character",
+    "size": [70, 50],
+    "sprites": [
+      {
+        "name": "character-run-8",
+        "x": 95,
+        "y": 78,
+        "scalefactor": 2,
+        "colorKey": -1,
+        "collision": false
+      }
+    ]
+  }

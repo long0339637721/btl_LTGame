@@ -1,56 +1,55 @@
 {
-    "spriteSheetURL": "./img/Character-2/idle/spritesheet_idle_1x.png",
-    "type": "character",
-    "size": [45, 65],
-    "sprites": [
-      {
-        "name": "character-idle-1",
-        "x": 45,
-        "y": 12,
-        "scalefactor": 1.5,
-        "colorKey": -1,
-        "collision": false
-      },
-      {
-        "name": "character-idle-2",
-        "x": 182,
-        "y": 12,
-        "scalefactor": 1.5,
-        "colorKey": -1,
-        "collision": false
-      },
-      {
-        "name": "character-idle-3",
-        "x": 317,
-        "y": 12,
-        "scalefactor": 1.5,
-        "colorKey": -1,
-        "collision": false
-      },
-      {
-        "name": "character-idle-4",
-        "x": 454,
-        "y": 12,
-        "scalefactor": 1.5,
-        "colorKey": -1,
-        "collision": false
-      },
-      {
-        "name": "character-idle-5",
-        "x": 589,
-        "y": 12,
-        "scalefactor": 1.5,
-        "colorKey": -1,
-        "collision": false
-      },
-      {
-        "name": "character-idle-6",
-        "x": 724,
-        "y": 12,
-        "scalefactor": 1.5,
-        "colorKey": -1,
-        "collision": false
-      }
-    ]
-  }
-  
+  "spriteSheetURL": "./img/Character-2/idle/spritesheet_idle_1x.png",
+  "type": "character",
+  "size": [45, 65],
+  "sprites": [
+    {
+      "name": "character-idle-1",
+      "x": 45,
+      "y": 12,
+      "scalefactor": 1.5,
+      "colorKey": -1,
+      "collision": false
+    },
+    {
+      "name": "character-idle-2",
+      "x": 182,
+      "y": 12,
+      "scalefactor": 1.5,
+      "colorKey": -1,
+      "collision": false
+    },
+    {
+      "name": "character-idle-3",
+      "x": 317,
+      "y": 12,
+      "scalefactor": 1.5,
+      "colorKey": -1,
+      "collision": false
+    },
+    {
+      "name": "character-idle-4",
+      "x": 454,
+      "y": 12,
+      "scalefactor": 1.5,
+      "colorKey": -1,
+      "collision": false
+    },
+    {
+      "name": "character-idle-5",
+      "x": 589,
+      "y": 12,
+      "scalefactor": 1.5,
+      "colorKey": -1,
+      "collision": false
+    },
+    {
+      "name": "character-idle-6",
+      "x": 724,
+      "y": 12,
+      "scalefactor": 1.5,
+      "colorKey": -1,
+      "collision": false
+    }
+  ]
+}

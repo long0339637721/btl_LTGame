@@ -35,15 +35,15 @@ class GoTrait:
                     self.entity.vel.x += self.accelVel * self.heading
 
             if not self.entity.inAir:
-                self.animation.update()
+                self.animation.update(True, self.entity.inAir, self.entity.inAttack, True)
             else:
                 if (self.entity.getPos()[1] < self.preY):
-                        self.animation.inAir(1)
+                    self.animation.inAir(1)
                 else:
                     self.animation.inAir(2)
                 self.preY = self.entity.getPos()[1]
         else:
-            self.animation.update()
+            self.animation.update(True, self.entity.inAir, self.entity.inAttack, False)   
             if self.entity.vel.x >= 0:
                 self.entity.vel.x -= self.decelVel
             else:
@@ -73,19 +73,23 @@ class GoTrait:
         position = (self.entity.getPos()[0] , self.entity.getPos()[1])
         if self.heading == 1:
             if self.animation.state == 2:
-                position =(self.entity.getPos()[0] - 16 , self.entity.getPos()[1])
+                position =(self.entity.getPos()[0] - 80 , self.entity.getPos()[1])
+            elif self.animation.state == 1:
+                position = (self.entity.getPos()[0] - 80 , self.entity.getPos()[1])
             elif self.animation.state == 3:
-                position =(self.entity.getPos()[0] - 8 , self.entity.getPos()[1] - 4)
+                position =(self.entity.getPos()[0] - 75 , self.entity.getPos()[1] - 76)
+            elif self.animation.state == 0:
+                position =(self.entity.getPos()[0] - 83 , self.entity.getPos()[1])
             self.screen.blit(self.animation.image, position)
         elif self.heading == -1:
             if self.animation.state == 0:
                 position = (self.entity.getPos()[0] - 32 , self.entity.getPos()[1])
             elif self.animation.state == 2:
-                position =(self.entity.getPos()[0] - 16 , self.entity.getPos()[1])
+                position =(self.entity.getPos()[0] - 25 , self.entity.getPos()[1])
             elif self.animation.state == 1:
-                position = (self.entity.getPos()[0] - 35 , self.entity.getPos()[1])
+                position = (self.entity.getPos()[0] - 25 , self.entity.getPos()[1])
             elif self.animation.state == 3:
-                position =(self.entity.getPos()[0] - 60 , self.entity.getPos()[1] - 4)
+                position =(self.entity.getPos()[0] - 193 , self.entity.getPos()[1] - 76)
             self.screen.blit(
                 flip(self.animation.image, True, False), position
             )
