@@ -1,0 +1,15 @@
+{
+    "spriteSheetURL": "./img/Character-3/idle/idle_6.png",
+    "type": "character",
+    "size": [70, 50],
+    "sprites": [
+      {
+        "name": "character-idle-6",
+        "x": 95,
+        "y": 78,
+        "scalefactor": 2,
+        "colorKey": -1,
+        "collision": false
+      }
+    ]
+  }

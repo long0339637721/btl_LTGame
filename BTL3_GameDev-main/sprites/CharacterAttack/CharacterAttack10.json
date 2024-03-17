@@ -1,0 +1,15 @@
+{
+    "spriteSheetURL": "./img/Character-3/attack/3_atk_10.png",
+    "type": "character",
+    "size": [150, 88],
+    "sprites": [
+      {
+        "name": "character-attack-10",
+        "x": 95,
+        "y": 40,
+        "scalefactor": 2,
+        "colorKey": -1,
+        "collision": false
+      }
+    ]
+  }
