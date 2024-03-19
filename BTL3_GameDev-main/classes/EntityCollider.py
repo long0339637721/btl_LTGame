@@ -9,11 +9,15 @@ class EntityCollider:
             return self.determineSide(target.rect, self.entity.rect)
         return CollisionState(False, False)
 
-    def checkSword(self, target):
+    def checkSword(self, target, isBoss = False):
         x, y = self.entity.rect.x, self.entity.rect.y
-        attackArea = pygame.Rect(x, y, 90, 96) if self.entity.traits["goTrait"].heading == 1 else pygame.Rect(x - 58, y, 90, 96)
-        if attackArea.colliderect(target.rect):
-            return True
+        attackArea = pygame.Rect(x, y, 150, 96) if self.entity.traits["goTrait"].heading == 1 else pygame.Rect(x - 116, y, 150, 96)
+        if isBoss: 
+            if attackArea.colliderect(pygame.Rect(target.x + 120, target.y, 150, 180)):
+                return True
+        else:
+            if attackArea.colliderect(target.rect):
+                return True
         return False
 
     def determineSide(self, rect1, rect2):
