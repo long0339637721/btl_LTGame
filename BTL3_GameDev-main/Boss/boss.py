@@ -4,7 +4,7 @@ import os
 class Boss(pygame.sprite.Sprite):
 	def __init__(self, pos_x, pos_y, Fire_ball, move_sprite, screen, camera,mario):
 		super().__init__()
-		self.x=pos_x*37
+		self.x=pos_x*37 - 800
 		self.y=pos_y*37
 		self.target_x=0
 		self.camera = camera
@@ -92,7 +92,9 @@ class Boss(pygame.sprite.Sprite):
 	
 	def take_hit(self):
 		if self.health > 0:
-			self.health-=1
+			hpDecreased = self.mario.traits["attackTrait"].checkAttackBoss(self)
+			if hpDecreased > 0:
+				self.health -= hpDecreased 
 		else:
 			self.death_animation = True
 
@@ -222,6 +224,7 @@ class Boss(pygame.sprite.Sprite):
 
 	def update_death(self,speed):
 		if self.death_animation == True:
+			print('True')
 			self.current_sprite_death += speed
 			if int(self.current_sprite_death) >= len(self.sprites_death):
 				return
@@ -229,7 +232,7 @@ class Boss(pygame.sprite.Sprite):
 				self.image = self.sprites_death[int(self.current_sprite_death)]
 			else:
 				self.image = pygame.transform.flip(self.sprites_death[int(self.current_sprite_death)], True, False)
-
+    
 	def load_images(self, path, scale_factor=1.8):
 		images = []
 		file_list = sorted(os.listdir(path))  # Sort files alphabetically

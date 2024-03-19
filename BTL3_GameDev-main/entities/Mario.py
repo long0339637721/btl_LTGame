@@ -121,7 +121,7 @@ class Mario(EntityBaseCharacter):
             "jumpTrait": JumpTrait(self),
             "goTrait": GoTrait(smallAnimation, screen, self.camera, self),
             "bounceTrait": bounceTrait(self),
-            "attackTrait": AttackTrait(self),
+            "attackTrait": AttackTrait(self, smallAnimation),
         }
 
         self.levelObj = level
@@ -132,6 +132,7 @@ class Mario(EntityBaseCharacter):
         self.restart = False
         self.pause = False
         self.pauseObj = Pause(screen, self, dashboard)
+        self.preIndex = 0
 
     def update(self):
         if self.invincibilityFrames > 0:
@@ -160,16 +161,42 @@ class Mario(EntityBaseCharacter):
                 elif ent.type == "Mob":
                     self._onCollisionWithMob(ent, collisionState)
     
-    def checkSwordMobCollision(self):
+    def checkSwordMobCollision(self, indexAttackSprite):
         for ent in self.levelObj.entityList:
             collisionState = self.EntityCollider.checkSword(ent)
             if collisionState:
-                if ent.type == "Mob" and not isinstance(ent, Potion):
-                    self.killEntityBySword(ent)
-                elif ent.type == "Block":
-                    print(ent.triggered)
-                    ent.triggered = True
-            
+                if indexAttackSprite in [4, 8, 9, 11, 12, 13, 14, 15, 20]: 
+                    if ent.type == "Mob" and not isinstance(ent, Potion):
+                        self.killEntityBySword(ent)
+                    elif ent.type == "Block":
+                        print(ent.triggered)
+                        ent.triggered = True
+    
+    def checkSwordBossCollision(self, indexAttackSprite, boss):
+        collisionState = self.EntityCollider.checkSword(boss, True)
+        if collisionState:
+            if indexAttackSprite in [4]: 
+                if self.preIndex == indexAttackSprite:
+                    self.preIndex = indexAttackSprite
+                    return 0
+                else: 
+                    self.preIndex = indexAttackSprite
+                    return 6
+            if indexAttackSprite in [8, 9, 10, 11, 12, 13, 14, 15]:
+                if self.preIndex == indexAttackSprite:
+                    self.preIndex = indexAttackSprite
+                    return 0
+                else: 
+                    self.preIndex = indexAttackSprite
+                    return 2
+            if indexAttackSprite in [20]:
+                if self.preIndex == indexAttackSprite:
+                    self.preIndex = indexAttackSprite
+                    return 0
+                else: 
+                    self.preIndex = indexAttackSprite
+                    return 15
+        return 0
 
     def _onCollisionWithItem(self, item):
         self.levelObj.entityList.remove(item)

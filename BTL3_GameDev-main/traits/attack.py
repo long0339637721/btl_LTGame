@@ -1,9 +1,10 @@
 class AttackTrait:
-    def __init__(self, entity, deltaTime=7):
+    def __init__(self, entity, animation=None, deltaTime=7 ):
         self.entity = entity
         self.timer = 0
         self.attackTimer = 0
         self.deltaTime = deltaTime
+        self.animation = animation
     
     def update(self):
         self.timer += 1
@@ -16,10 +17,13 @@ class AttackTrait:
     def attack(self, attacking):
         if attacking and self.entity.onGround:
             self.timer = 0
-            self.entity.checkSwordMobCollision()
+            self.entity.checkSwordMobCollision(self.animation.index)
             if self.entity.inAttack == False:
                 self.entity.sound.play_sfx(self.entity.sound.bump)
                 self.entity.inAttack = True
                 
+    def checkAttackBoss(self, boss):
+        return self.entity.checkSwordBossCollision(self.animation.index, boss)
+        
     def reset(self):
         self.entity.inAttack = False

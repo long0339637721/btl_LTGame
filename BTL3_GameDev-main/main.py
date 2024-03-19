@@ -32,8 +32,8 @@ def main():
     is_boss=False
     moving_sprites = pygame.sprite.Group()
     fire_ball = Fire_ball(20, 20,mario.camera,mario)
-    player = Boss(118,6,fire_ball,moving_sprites,screen,mario.camera,mario)
-    moving_sprites.add(player)
+    boss = Boss(118,6,fire_ball,moving_sprites,screen,mario.camera,mario)
+    moving_sprites.add(boss)
 
     clock = pygame.time.Clock()
 
@@ -51,10 +51,10 @@ def main():
                 pressedKeys = pygame.key.get_pressed()
                 isAttacking = pressedKeys[K_SPACE]
                 if isAttacking:
-                    player.take_hit()
+                    boss.take_hit()
                 isAttacking = False
-                player.draw_health()
-                player.Behavior()
+                boss.draw_health()
+                boss.Behavior()
 
         moving_sprites.draw(screen)
         pygame.display.update()
