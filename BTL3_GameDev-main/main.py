@@ -10,8 +10,7 @@ import pygame
 from pygame.locals import *
 import sys
 
-windowSize = 640, 480
-
+windowSize = 640, 480    
 
 def main():
     pygame.mixer.pre_init(44100, -16, 2, 4096)
@@ -22,7 +21,7 @@ def main():
     sound = Sound()
     level = Level(screen, sound, dashboard)
     menu = Menu(screen, dashboard, level, sound)
-
+    winImage = pygame.image.load("./img/Win/Win.png")
     
 
     while not menu.start:
@@ -57,6 +56,7 @@ def main():
                 boss.Behavior()
 
         moving_sprites.draw(screen)
+        screen.blit(winImage, (0, 0))
         pygame.display.update()
         clock.tick(max_frame_rate)
     return 'restart'

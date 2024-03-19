@@ -224,7 +224,6 @@ class Boss(pygame.sprite.Sprite):
 
 	def update_death(self,speed):
 		if self.death_animation == True:
-			print('True')
 			self.current_sprite_death += speed
 			if int(self.current_sprite_death) >= len(self.sprites_death):
 				return
