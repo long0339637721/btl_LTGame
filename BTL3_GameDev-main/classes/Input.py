@@ -8,6 +8,8 @@ class Input:
         self.mouseX = 0
         self.mouseY = 0
         self.entity = entity
+        # self.prevKeys = pygame.key.get_pressed()
+        self.releasedJump = True
 
     def checkForInput(self, isBossDead):
         events = pygame.event.get()
@@ -21,7 +23,7 @@ class Input:
         if isBossDead:
             if pressedKeys[K_RETURN]:
                 self.entity.restart = True
-        else:        
+        else:
             if pressedKeys[K_LEFT] or pressedKeys[K_h] and not pressedKeys[K_RIGHT]:
                 self.entity.traits["goTrait"].direction = -1
             elif pressedKeys[K_RIGHT] or pressedKeys[K_l] and not pressedKeys[K_LEFT]:
@@ -29,9 +31,17 @@ class Input:
             else:
                 self.entity.traits['goTrait'].direction = 0
 
-            isJumping =  pressedKeys[K_UP] or pressedKeys[K_k]
+            isJumping = pressedKeys[K_UP] or pressedKeys[K_k]
             isAttacking = pressedKeys[K_SPACE]
+            toggleDoubleJump = pressedKeys[K_q]
+
             self.entity.traits['jumpTrait'].jump(isJumping)
+
+            if toggleDoubleJump:
+                self.entity.traits['jumpTrait'].canDoubleJump = not self.entity.traits['jumpTrait'].canDoubleJump
+
+
+
             self.entity.traits['attackTrait'].attack(isAttacking)
             self.entity.traits['goTrait'].boost = pressedKeys[K_LSHIFT]
 
@@ -58,7 +68,7 @@ class Input:
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN and \
-                (event.key == pygame.K_ESCAPE or event.key == pygame.K_F5):
+                    (event.key == pygame.K_ESCAPE or event.key == pygame.K_F5):
                 self.entity.pause = True
                 self.entity.pauseObj.createBackgroundBlur()
 
