@@ -134,7 +134,7 @@ class Mario(EntityBaseCharacter):
         self.pauseObj = Pause(screen, self, dashboard)
         self.preIndex = 0
 
-    def update(self):
+    def update(self, isBossDead):
         if self.invincibilityFrames > 0:
             self.invincibilityFrames -= 1
         self.updateTraits()
@@ -142,7 +142,7 @@ class Mario(EntityBaseCharacter):
         self.camera.move()
         self.applyGravity()
         self.checkEntityCollision()
-        self.input.checkForInput()
+        self.input.checkForInput(isBossDead)
 
     def moveMario(self):
         self.rect.y += self.vel.y
@@ -189,7 +189,7 @@ class Mario(EntityBaseCharacter):
                 else: 
                     self.preIndex = indexAttackSprite
                     return 2
-            if indexAttackSprite in [20]:
+            if indexAttackSprite in [22]:
                 if self.preIndex == indexAttackSprite:
                     self.preIndex = indexAttackSprite
                     return 0

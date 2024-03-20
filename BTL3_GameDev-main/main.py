@@ -10,8 +10,7 @@ import pygame
 from pygame.locals import *
 import sys
 
-windowSize = 640, 480
-
+windowSize = 640, 480    
 
 def main():
     pygame.mixer.pre_init(44100, -16, 2, 4096)
@@ -22,7 +21,7 @@ def main():
     sound = Sound()
     level = Level(screen, sound, dashboard)
     menu = Menu(screen, dashboard, level, sound)
-
+    winImage = pygame.image.load("./img/Win/Win.png")
     
 
     while not menu.start:
@@ -43,10 +42,12 @@ def main():
             mario.pauseObj.update()
         else:
             level.drawLevel(mario.camera)
-            dashboard.update(mario.powerUpState)
-            mario.update()
+            # dashboard.update(mario.powerUpState)
+            mario.update(True if boss.haveShownDead else False)
             if (mario.getPosIndexAsFloat().x > 110.0):
                 is_boss=True
+            if mario.getPosIndexAsFloat().x > 90.0 and mario.getPosIndexAsFloat().x <= 110.0 and not is_boss:
+                dashboard.updateWarning()
             if is_boss:
                 pressedKeys = pygame.key.get_pressed()
                 isAttacking = pressedKeys[K_SPACE]
@@ -55,8 +56,14 @@ def main():
                 isAttacking = False
                 boss.draw_health()
                 boss.Behavior()
-
-        moving_sprites.draw(screen)
+                
+        if not boss.haveShownDead:
+            moving_sprites.draw(screen)
+            dashboard.update(mario.powerUpState)
+        else:
+            screen.blit(winImage, (120, 20))
+            dashboard.updateWinning()
+        
         pygame.display.update()
         clock.tick(max_frame_rate)
     return 'restart'

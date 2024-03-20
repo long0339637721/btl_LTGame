@@ -36,6 +36,14 @@ class Dashboard(Font):
         if self.ticks == 60:
             self.ticks = 0
             self.time += 1
+            
+    def updateWinning(self):
+        self.drawText("Score: ", 232, 250, 15)
+        self.drawText(self.pointString(), 327, 250, 15)
+        self.drawText("Press \"Enter\" to return to the menu", 84, 440, 15)
+    
+    def updateWarning(self):
+        self.drawText("WARNING", 165, 120, 50)
 
     def drawText(self, text, x, y, size):
         for char in text:
