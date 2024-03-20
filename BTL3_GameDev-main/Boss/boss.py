@@ -12,7 +12,8 @@ class Boss(pygame.sprite.Sprite):
 		self.mario=mario
 		self.fire_ball = Fire_ball
 		self.sprite_group = move_sprite
-		
+		self.haveShownDead = False		
+  
 		self.scale= 1
 		self.initial_scale = self.scale  # Save initial scale
 		
@@ -225,7 +226,8 @@ class Boss(pygame.sprite.Sprite):
 	def update_death(self,speed):
 		if self.death_animation == True:
 			self.current_sprite_death += speed
-			if int(self.current_sprite_death) >= len(self.sprites_death):
+			if int(self.current_sprite_death) >= len(self.sprites_death) - 10:
+				self.haveShownDead = True
 				return
 			if self.scale == 1:
 				self.image = self.sprites_death[int(self.current_sprite_death)]

@@ -42,10 +42,12 @@ def main():
             mario.pauseObj.update()
         else:
             level.drawLevel(mario.camera)
-            dashboard.update(mario.powerUpState)
-            mario.update()
+            # dashboard.update(mario.powerUpState)
+            mario.update(True if boss.haveShownDead else False)
             if (mario.getPosIndexAsFloat().x > 110.0):
                 is_boss=True
+            if mario.getPosIndexAsFloat().x > 90.0 and mario.getPosIndexAsFloat().x <= 110.0 and not is_boss:
+                dashboard.updateWarning()
             if is_boss:
                 pressedKeys = pygame.key.get_pressed()
                 isAttacking = pressedKeys[K_SPACE]
@@ -54,9 +56,14 @@ def main():
                 isAttacking = False
                 boss.draw_health()
                 boss.Behavior()
-
-        moving_sprites.draw(screen)
-        screen.blit(winImage, (0, 0))
+                
+        if not boss.haveShownDead:
+            moving_sprites.draw(screen)
+            dashboard.update(mario.powerUpState)
+        else:
+            screen.blit(winImage, (120, 20))
+            dashboard.updateWinning()
+        
         pygame.display.update()
         clock.tick(max_frame_rate)
     return 'restart'

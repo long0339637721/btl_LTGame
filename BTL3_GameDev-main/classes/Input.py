@@ -9,27 +9,31 @@ class Input:
         self.mouseY = 0
         self.entity = entity
 
-    def checkForInput(self):
+    def checkForInput(self, isBossDead):
         events = pygame.event.get()
-        self.checkForKeyboardInput()
+        self.checkForKeyboardInput(isBossDead)
         self.checkForMouseInput(events)
         self.checkForQuitAndRestartInputEvents(events)
 
-    def checkForKeyboardInput(self):
+    def checkForKeyboardInput(self, isBossDead):
         pressedKeys = pygame.key.get_pressed()
 
-        if pressedKeys[K_LEFT] or pressedKeys[K_h] and not pressedKeys[K_RIGHT]:
-            self.entity.traits["goTrait"].direction = -1
-        elif pressedKeys[K_RIGHT] or pressedKeys[K_l] and not pressedKeys[K_LEFT]:
-            self.entity.traits["goTrait"].direction = 1
-        else:
-            self.entity.traits['goTrait'].direction = 0
+        if isBossDead:
+            if pressedKeys[K_RETURN]:
+                self.entity.restart = True
+        else:        
+            if pressedKeys[K_LEFT] or pressedKeys[K_h] and not pressedKeys[K_RIGHT]:
+                self.entity.traits["goTrait"].direction = -1
+            elif pressedKeys[K_RIGHT] or pressedKeys[K_l] and not pressedKeys[K_LEFT]:
+                self.entity.traits["goTrait"].direction = 1
+            else:
+                self.entity.traits['goTrait'].direction = 0
 
-        isJumping =  pressedKeys[K_UP] or pressedKeys[K_k]
-        isAttacking = pressedKeys[K_SPACE]
-        self.entity.traits['jumpTrait'].jump(isJumping)
-        self.entity.traits['attackTrait'].attack(isAttacking)
-        self.entity.traits['goTrait'].boost = pressedKeys[K_LSHIFT]
+            isJumping =  pressedKeys[K_UP] or pressedKeys[K_k]
+            isAttacking = pressedKeys[K_SPACE]
+            self.entity.traits['jumpTrait'].jump(isJumping)
+            self.entity.traits['attackTrait'].attack(isAttacking)
+            self.entity.traits['goTrait'].boost = pressedKeys[K_LSHIFT]
 
     def checkForMouseInput(self, events):
         mouseX, mouseY = pygame.mouse.get_pos()
