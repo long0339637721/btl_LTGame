@@ -114,8 +114,8 @@ class Menu:
         if withBanner:
             self.screen.blit(self.menu_banner, (150, 80))
         self.screen.blit(
-            self.level.sprites.spriteCollection.get("mario_idle").image,
-            (2 * 32, 10 * 32),
+            self.level.sprites.spriteCollection.get("character-idle-1").image,
+            (1 * 8, 10 * 32),
         )
         self.screen.blit(
             self.level.sprites.spriteCollection.get("bush_1").image, (14 * 32, 12 * 32)
