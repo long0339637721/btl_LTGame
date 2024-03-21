@@ -22,6 +22,7 @@ def main():
     level = Level(screen, sound, dashboard)
     menu = Menu(screen, dashboard, level, sound)
     winImage = pygame.image.load("./img/Win/Win.png")
+    loseImage = pygame.image.load("./img/Lose/Lose.png")
     
 
     while not menu.start:
@@ -43,11 +44,12 @@ def main():
         else:
             level.drawLevel(mario.camera)
             # dashboard.update(mario.powerUpState)
-            mario.update(True if boss.haveShownDead else False)
+            mario.update(True if boss.haveShownDead else False, True if mario.inDead else False)
             if (mario.getPosIndexAsFloat().x > 110.0):
                 is_boss=True
             if mario.getPosIndexAsFloat().x > 90.0 and mario.getPosIndexAsFloat().x <= 110.0 and not is_boss:
-                dashboard.updateWarning()
+                if not mario.haveDieDone:
+                    dashboard.updateWarning()
             if is_boss:
                 pressedKeys = pygame.key.get_pressed()
                 isAttacking = pressedKeys[K_SPACE]
@@ -57,12 +59,15 @@ def main():
                 boss.draw_health()
                 boss.Behavior()
                 
-        if not boss.haveShownDead:
+        if not boss.haveShownDead and not mario.haveDieDone:
             moving_sprites.draw(screen)
             dashboard.update(mario.powerUpState)
-        else:
-            screen.blit(winImage, (120, 20))
+        if boss.haveShownDead:
+            screen.blit(winImage, (145, 40))
             dashboard.updateWinning()
+        if mario.haveDieDone:
+            screen.blit(loseImage, (145, 40))
+            dashboard.updateLosing()
         
         pygame.display.update()
         clock.tick(max_frame_rate)

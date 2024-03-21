@@ -10,23 +10,26 @@ class Input:
         self.entity = entity
         self.pressedJump = False
 
-    def checkForInput(self, isBossDead):
+    def checkForInput(self, isBossDead = False, isPlayerDead = False):
         events = pygame.event.get()
-        self.checkForKeyboardInput(isBossDead)
+        self.checkForKeyboardInput(isBossDead, isPlayerDead)
         self.checkForMouseInput(events)
         self.checkForQuitAndRestartInputEvents(events)
 
-    def checkForKeyboardInput(self, isBossDead):
+    def checkForKeyboardInput(self, isBossDead, isPlayerDead):
         pressedKeys = pygame.key.get_pressed()
 
         if isBossDead:
             if pressedKeys[K_RETURN]:
                 self.entity.restart = True
-        else:
+        elif isPlayerDead:
+            if pressedKeys[K_RETURN]:
+                self.entity.restart = True
+        else:        
             if pressedKeys[K_LEFT] or pressedKeys[K_h] and not pressedKeys[K_RIGHT]:
                 self.entity.traits["goTrait"].direction = -1
             elif pressedKeys[K_RIGHT] or pressedKeys[K_l] and not pressedKeys[K_LEFT]:
-                self.entity.traits["goTrait"].direction = 1
+                self.entity.traits["goTrait"].direction = 1  
             else:
                 self.entity.traits['goTrait'].direction = 0
 

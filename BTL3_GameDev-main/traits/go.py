@@ -24,7 +24,7 @@ class GoTrait:
             if abs(self.entity.vel.x) > 3.2:
                 self.entity.vel.x = 3.2 * self.heading
             self.maxVel = 3.2
-
+       
         if self.direction != 0:
             self.heading = self.direction
             if self.heading == 1:
@@ -33,9 +33,11 @@ class GoTrait:
             else:
                 if self.entity.vel.x > -self.maxVel:
                     self.entity.vel.x += self.accelVel * self.heading
-
+            
             if not self.entity.inAir:
-                self.animation.update(True, self.entity.inAir, self.entity.inAttack, True)
+                self.animation.update(True, self.entity.inAir, self.entity.inAttack, True, self.entity.inDead)
+                if self.entity.inDead:
+                    self.animation.die()
             else:
                 if (self.entity.getPos()[1] < self.preY):
                     self.animation.inAir(1)
@@ -43,14 +45,16 @@ class GoTrait:
                     self.animation.inAir(2)
                 self.preY = self.entity.getPos()[1]
         else:
-            self.animation.update(True, self.entity.inAir, self.entity.inAttack, False)   
+            self.animation.update(True, self.entity.inAir, self.entity.inAttack, False, self.entity.inDead)   
             if self.entity.vel.x >= 0:
                 self.entity.vel.x -= self.decelVel
             else:
                 self.entity.vel.x += self.decelVel
             if int(self.entity.vel.x) == 0:
                 self.entity.vel.x = 0
-                if self.entity.inAir:
+                if self.entity.inDead:
+                    self.animation.die()
+                elif self.entity.inAir:
                     if (self.entity.getPos()[1] < self.preY):
                         self.animation.inAir(1)
                     else:
@@ -58,10 +62,8 @@ class GoTrait:
                     self.preY = self.entity.getPos()[1]
                 elif self.entity.inAttack:
                     self.animation.inAttack()
-                    self.startJumping = False
                 else:
                     self.animation.idle()
-                    self.startJumping = False
         if (self.entity.invincibilityFrames//2) % 2 == 0:
             self.drawEntity()
 
@@ -80,6 +82,8 @@ class GoTrait:
                 position =(self.entity.getPos()[0] - 75 , self.entity.getPos()[1] - 76)
             elif self.animation.state == 0:
                 position =(self.entity.getPos()[0] - 83 , self.entity.getPos()[1])
+            elif self.animation.state == 4:
+                position =(self.entity.getPos()[0] - 75 , 288 if self.entity.inAir else self.entity.getPos()[1])
             self.screen.blit(self.animation.image, position)
         elif self.heading == -1:
             if self.animation.state == 0:
@@ -90,6 +94,8 @@ class GoTrait:
                 position = (self.entity.getPos()[0] - 25 , self.entity.getPos()[1])
             elif self.animation.state == 3:
                 position =(self.entity.getPos()[0] - 193 , self.entity.getPos()[1] - 76)
+            elif self.animation.state == 4:
+                position =(self.entity.getPos()[0] - 110 , 288 if self.entity.inAir else self.entity.getPos()[1])
             self.screen.blit(
                 flip(self.animation.image, True, False), position
             )

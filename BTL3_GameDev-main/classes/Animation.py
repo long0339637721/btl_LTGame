@@ -1,5 +1,5 @@
 class Animation:
-    def __init__(self, images, idleSprite=None, airSprite=None, attackSprite=None, deltaTime=7):
+    def __init__(self, images, idleSprite=None, airSprite=None, attackSprite=None, dieSprite=None, deltaTime=7):
         self.images = images
         self.timer = 0
         self.index = 0
@@ -7,15 +7,20 @@ class Animation:
         self.idleSprite = idleSprite
         self.airSprite = airSprite
         self.attackSprite = attackSprite
+        self.dieSprite = dieSprite
         self.deltaTime = deltaTime
         self.attackTimer = 0
-        self.state = 0      # 0: running, 1: idle, 2: inAir, 3: attacking
+        self.state = 0      # 0: running, 1: idle, 2: inAir, 3: attacking, 4: dead
 
-    def update(self, isCharacter = False, isInAir = False, isInAttack = False, isMoving = False):
+    def update(self, isCharacter = False, isInAir = False, isInAttack = False, isMoving = False, isDead = False):
         self.timer += 1
         if isCharacter: 
             if self.timer % self.deltaTime == 0:
-                if isInAttack and not isMoving:
+                if isDead:
+                    if self.index < len(self.dieSprite) - 1:
+                        self.index += 1
+                    else: return
+                elif isInAttack and not isMoving:
                     if self.index < len(self.attackSprite) - 1:
                         self.index += 1
                     else: self.index = 0
@@ -30,8 +35,8 @@ class Animation:
                     self.index += 1
                 else:
                     self.index = 0
-        # Không cho set lại state = 0 và image running khi đang nhảy (hoặc tấn công)       
-        if not (isCharacter and (isInAir or isInAttack)):
+        # Không cho set lại state = 0 và image running khi đang nhảy (hoặc tấn công hoặc chết)       
+        if not (isCharacter and (isInAir or isInAttack or isDead)):
             self.image = self.images[len(self.images)-1 if self.index > len(self.images)-1 else self.index]  
             self.state = 0
         # Cho phép set lại trạng thái state = 0 và image running khi vừa giữ phím space vừa di chuyển
@@ -60,5 +65,11 @@ class Animation:
             self.state = 3
             self.index = 0
         self.image = self.attackSprite[self.index]
+        
+    def die(self):
+        if self.state != 4:
+            self.state = 4
+            self.index = 0
+        self.image = self.dieSprite[self.index]
 
 

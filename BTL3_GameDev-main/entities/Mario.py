@@ -13,6 +13,7 @@ from traits.bounce import bounceTrait
 from traits.go import GoTrait
 from traits.jump import JumpTrait
 from traits.attack import AttackTrait
+from traits.die import DieTrait
 from classes.Pause import Pause
 
 spriteCollection = Sprites().spriteCollection
@@ -94,6 +95,21 @@ smallAnimation = Animation(
         spriteCollection["character-attack-27"].image,
         spriteCollection["character-attack-28"].image,
     ],
+    [
+        spriteCollection["character-die-1"].image,
+        spriteCollection["character-die-2"].image,
+        spriteCollection["character-die-3"].image,
+        spriteCollection["character-die-4"].image,
+        spriteCollection["character-die-5"].image,
+        spriteCollection["character-die-6"].image,
+        spriteCollection["character-die-7"].image,
+        spriteCollection["character-die-8"].image,
+        spriteCollection["character-die-9"].image,
+        spriteCollection["character-die-10"].image,
+        spriteCollection["character-die-11"].image,
+        spriteCollection["character-die-12"].image,
+        spriteCollection["character-die-13"].image,
+    ],
 )
 bigAnimation = Animation(
     [
@@ -115,6 +131,8 @@ class Mario(EntityBaseCharacter):
         self.inAir = False
         self.inJump = False
         self.inAttack = False
+        self.inDead = False
+        self.haveDieDone = False
         self.powerUpState = 3
         self.invincibilityFrames = 0
         self.traits = {
@@ -122,6 +140,7 @@ class Mario(EntityBaseCharacter):
             "goTrait": GoTrait(smallAnimation, screen, self.camera, self),
             "bounceTrait": bounceTrait(self),
             "attackTrait": AttackTrait(self, smallAnimation),
+            "dieTrait": DieTrait(self, smallAnimation, screen)
         }
 
         self.levelObj = level
@@ -134,7 +153,7 @@ class Mario(EntityBaseCharacter):
         self.pauseObj = Pause(screen, self, dashboard)
         self.preIndex = 0
 
-    def update(self, isBossDead):
+    def update(self, isBossDead, isPlayerDead):
         if self.invincibilityFrames > 0:
             self.invincibilityFrames -= 1
         self.updateTraits()
@@ -142,13 +161,15 @@ class Mario(EntityBaseCharacter):
         self.camera.move()
         self.applyGravity()
         self.checkEntityCollision()
-        self.input.checkForInput(isBossDead)
+        self.input.checkForInput(isBossDead, isPlayerDead)
 
     def moveMario(self):
-        self.rect.y += self.vel.y
-        self.collision.checkY()
-        self.rect.x += self.vel.x
-        self.collision.checkX()
+        if not self.inDead or (self.rect.y > 288):
+            self.rect.y += self.vel.y
+            self.collision.checkY()
+            if (self.rect.y < 500):
+                self.rect.x += self.vel.x
+                self.collision.checkX()
 
     def checkEntityCollision(self):
         for ent in self.levelObj.entityList:
@@ -279,24 +300,22 @@ class Mario(EntityBaseCharacter):
         srf = pygame.Surface((640, 480))
         srf.set_colorkey((255, 255, 255), pygame.RLEACCEL)
         srf.set_alpha(128)
-        self.sound.music_channel.stop()
-        self.sound.music_channel.play(self.sound.death)
-
-        for i in range(500, 20, -2):
-            srf.fill((0, 0, 0))
-            pygame.draw.circle(
-                srf,
-                (255, 255, 255),
-                (int(self.camera.x + self.rect.x) + 16, self.rect.y + 16),
-                i,
-            )
-            self.screen.blit(srf, (0, 0))
-            pygame.display.update()
-            self.input.checkForInput()
-        while self.sound.music_channel.get_busy():
-            pygame.display.update()
-            self.input.checkForInput()
-        self.restart = True
+        # self.sound.music_channel.stop()
+        # self.sound.music_channel.play(self.sound.death)
+        # for i in range(500, 20, -2):
+        #     srf.fill((0, 0, 0))
+        #     pygame.draw.circle(
+        #         srf,
+        #         (255, 255, 255),
+        #         (int(self.camera.x + self.rect.x) + 16, self.rect.y + 16),
+        #         i,
+        #     )
+        #     self.screen.blit(srf, (0, 0))
+        #     pygame.display.update()
+        #     self.input.checkForInput()
+        self.traits['dieTrait'].die()
+        if (self.inDead and smallAnimation.index > 10) or self.rect.y > 1000:
+            self.haveDieDone = True
 
     def getPos(self):
         return self.camera.x + self.rect.x, self.rect.y
