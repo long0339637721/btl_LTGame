@@ -8,8 +8,7 @@ class Input:
         self.mouseX = 0
         self.mouseY = 0
         self.entity = entity
-        # self.prevKeys = pygame.key.get_pressed()
-        self.releasedJump = True
+        self.pressedJump = False
 
     def checkForInput(self, isBossDead):
         events = pygame.event.get()
@@ -33,13 +32,20 @@ class Input:
 
             isJumping = pressedKeys[K_UP] or pressedKeys[K_k]
             isAttacking = pressedKeys[K_SPACE]
-            toggleDoubleJump = pressedKeys[K_q]
+            turnOnDoubleJump = pressedKeys[K_q]
+            turnOffDoubleJump = pressedKeys[K_e]
 
-            self.entity.traits['jumpTrait'].jump(isJumping)
 
-            if toggleDoubleJump:
-                self.entity.traits['jumpTrait'].canDoubleJump = not self.entity.traits['jumpTrait'].canDoubleJump
+            self.entity.traits['jumpTrait'].jump(isJumping and (not self.pressedJump))
 
+            self.pressedJump = isJumping
+
+
+            if turnOnDoubleJump:
+                self.entity.traits['jumpTrait'].canDoubleJump = True
+            
+            if turnOffDoubleJump:
+                self.entity.traits['jumpTrait'].canDoubleJump = False
 
 
             self.entity.traits['attackTrait'].attack(isAttacking)
