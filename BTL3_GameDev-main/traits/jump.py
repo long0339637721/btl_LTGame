@@ -1,7 +1,7 @@
 class JumpTrait:
     def __init__(self, entity):
         self.verticalSpeed = -12
-        self.jumpHeight = 120
+        self.jumpHeight = 20
         self.entity = entity
         self.entity.inAir = False
         self.initalHeight = 384
