@@ -35,6 +35,14 @@ class Pause:
         elif self.state == 1:
             self.screen.blit(self.dot, (100, 315))
             self.screen.blit(self.gray_dot, (100, 275))
+    
+    def drawDotLoseMenu(self):
+        if self.state == 0:
+            self.screen.blit(self.dot, (100, 255))
+            self.screen.blit(self.gray_dot, (100, 315))
+        elif self.state == 1:
+            self.screen.blit(self.dot, (100, 315))
+            self.screen.blit(self.gray_dot, (100, 255))
 
     def checkInput(self):
         events = pygame.event.get()

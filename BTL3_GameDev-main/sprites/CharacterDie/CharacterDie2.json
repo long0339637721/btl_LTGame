@@ -1,0 +1,15 @@
+{
+    "spriteSheetURL": "./img/Character-3/die/death_2.png",
+    "type": "character",
+    "size": [110, 50],
+    "sprites": [
+      {
+        "name": "character-die-2",
+        "x": 95,
+        "y": 78,
+        "scalefactor": 2,
+        "colorKey": -1,
+        "collision": false
+      }
+    ]
+  }

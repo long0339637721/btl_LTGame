@@ -45,6 +45,11 @@ class Dashboard(Font):
     def updateWarning(self):
         self.drawText("WARNING", 165, 120, 50)
 
+    def updateLosing(self):
+        self.drawText("Score: ", 232, 250, 15)
+        self.drawText(self.pointString(), 327, 250, 15)
+        self.drawText("Press \"Enter\" to return to the menu", 84, 440, 15)
+        
     def drawText(self, text, x, y, size):
         for char in text:
             charSprite = pygame.transform.scale(self.charSprites[char], (size, size))
