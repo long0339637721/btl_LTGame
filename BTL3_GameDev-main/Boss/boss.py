@@ -67,9 +67,9 @@ class Boss(pygame.sprite.Sprite):
 		self.hitbox_target=self.mario.rect
 
 		self.update_walk(0.25)
-		self.update_attack_fire(0.25)
+		self.update_attack_fire(0.5)
 		self.update_idle(0.25)
-		self.update_attack_Normal(0.25)
+		self.update_attack_Normal(0.5)
 		self.Check_scale()
 
 		if self.idle_animtion == False:
