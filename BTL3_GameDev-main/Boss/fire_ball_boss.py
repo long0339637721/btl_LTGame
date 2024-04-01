@@ -65,7 +65,6 @@ class Fire_ball(pygame.sprite.Sprite):
 
     def update_pos(self, pos_x, pos_y):
        self.rect.topleft = (pos_x + self.camera.x, pos_y)
-       print(self.rect.topleft)
 
     #move
     def move(self,scale):
