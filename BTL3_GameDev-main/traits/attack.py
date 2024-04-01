@@ -17,7 +17,7 @@ class AttackTrait:
     def attack(self, attacking):
         if attacking and self.entity.onGround:
             self.timer = 0
-            self.entity.checkSwordMobCollision(self.animation.index)
+            self.entity.checkSwordMobCollision(self.animation.attackIndex)
             if self.entity.inAttack == False:
                 self.entity.sound.play_sfx(self.entity.sound.bump)
                 self.entity.inAttack = True

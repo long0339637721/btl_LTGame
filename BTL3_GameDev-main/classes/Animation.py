@@ -3,6 +3,7 @@ class Animation:
         self.images = images
         self.timer = 0
         self.index = 0
+        self.attackIndex = 0
         self.image = self.images[self.index]
         self.idleSprite = idleSprite
         self.airSprite = airSprite
@@ -23,7 +24,10 @@ class Animation:
                 elif isInAttack and not isMoving:
                     if self.index < len(self.attackSprite) - 1:
                         self.index += 1
-                    else: self.index = 0
+                        self.attackIndex += 1
+                    else: 
+                        self.index = 0
+                        self.attackIndex = 0
                 else:
                     if self.index < len(self.images) - 1:
                         self.index += 1
@@ -64,6 +68,7 @@ class Animation:
         if self.state != 3:
             self.state = 3
             self.index = 0
+            self.attackIndex = 0
         self.image = self.attackSprite[self.index]
         
     def die(self):

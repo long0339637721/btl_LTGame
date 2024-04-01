@@ -183,6 +183,7 @@ class Mario(EntityBaseCharacter):
                     self._onCollisionWithMob(ent, collisionState)
     
     def checkSwordMobCollision(self, indexAttackSprite):
+        print(indexAttackSprite)
         for ent in self.levelObj.entityList:
             collisionState = self.EntityCollider.checkSword(ent)
             if collisionState:
@@ -195,6 +196,8 @@ class Mario(EntityBaseCharacter):
     
     def checkSwordBossCollision(self, indexAttackSprite, boss):
         collisionState = self.EntityCollider.checkSword(boss, True)
+        if indexAttackSprite in [0, 1, 2, 3]:
+            self.preIndex = indexAttackSprite
         if collisionState:
             if indexAttackSprite in [4]: 
                 if self.preIndex == indexAttackSprite:
@@ -209,7 +212,7 @@ class Mario(EntityBaseCharacter):
                     return 0
                 else: 
                     self.preIndex = indexAttackSprite
-                    return 2
+                    return 3
             if indexAttackSprite in [22]:
                 if self.preIndex == indexAttackSprite:
                     self.preIndex = indexAttackSprite
