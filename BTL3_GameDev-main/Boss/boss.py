@@ -52,9 +52,9 @@ class Boss(pygame.sprite.Sprite):
 		self.cur_time_Walk=0
 
 		self.hitbox_take_hit = (self.x + 110, self.y, 70, 70)
-		self.hitbox_hit_left = (self.x - 30, self.y, 50, 50)
+		self.hitbox_hit_left = (self.x - 30, self.y, 250, 250)
 		self.hitbox_hit_right = ((self.x + 150, self.y, 50, 50))
-		self.hitbox_target = (10 + 110, 200 + 80, 70, 70)
+		self.hitbox_target = (10 + 100, 200 + 80, 90, 70)
 		self.health = 100
 
 	def Behavior(self):
@@ -64,14 +64,13 @@ class Boss(pygame.sprite.Sprite):
 		
 		self.rect.topleft = [self.x + self.camera.x,self.y - 55]
 		self.target_x = self.mario.rect.x
-		self.hitbox_target=self.mario.rect
+		self.hitbox_target=self.mario.rect 
 
 		self.update_walk(0.25)
 		self.update_attack_fire(0.5)
 		self.update_idle(0.25)
 		self.update_attack_Normal(0.5)
 		self.Check_scale()
-
 		if self.idle_animtion == False:
 			self.move_boss()
 		self.fire_ball.Fire_anim(0.25,self.scale*(-1))
@@ -79,11 +78,11 @@ class Boss(pygame.sprite.Sprite):
 		if self.fire_ball.ismove == False:
 			if self.scale == 1:
 				self.fire_ball.x = self.x
-				self.fire_ball.y = self.y
+				self.fire_ball.y = self.y + 40
 				
 			else:
 				self.fire_ball.x = self.x + 200
-				self.fire_ball.y = self.y
+				self.fire_ball.y = self.y + 40
 			self.fire_ball.update_pos(self.fire_ball.x,self.fire_ball.y)
 			self.sprite_group.remove(self.fire_ball)
 		else:
@@ -191,9 +190,15 @@ class Boss(pygame.sprite.Sprite):
 				self.attack_normal()
 
 	def Collision_Boss(self):
-		if self.hitbox_hit_left[1] + self.hitbox_hit_left[3] > self.hitbox_target[1] and self.hitbox_hit_left[1] - self.hitbox_hit_left[3] < self.hitbox_target[1]:
-			if (self.x + self.hitbox_hit_left[2]*2 < self.hitbox_target[0] + self.hitbox_target[2] and self.scale == 1) or (self.hitbox_hit_right[0] + self.hitbox_hit_right[2]*1.5 > self.hitbox_target[0] + self.hitbox_target[2] and self.scale == -1):
-				return True
+		# pygame.draw.rect(self.screen, (255,0,0), (self.hitbox_hit_left[0] + 150 + self.camera.x, self.hitbox_hit_left[1], 150, 200))
+		# pygame.draw.rect(self.screen, (255,0,0), (self.hitbox_target[0] + self.camera.x, self.hitbox_target[1], self.hitbox_target[2], self.hitbox_target[3]))
+		# if self.hitbox_hit_left[1] + self.hitbox_hit_left[3] > self.hitbox_target[1] and self.hitbox_hit_left[1] - self.hitbox_hit_left[3] < self.hitbox_target[1]:
+		# 	if (self.x + self.hitbox_hit_left[2]*2 < self.hitbox_target[0] + self.hitbox_target[2] and self.scale == 1) or (self.hitbox_hit_right[0] + self.hitbox_hit_right[2]*1.5 > self.hitbox_target[0] + self.hitbox_target[2] and self.scale == -1):
+		# 		return True
+		playerArea = pygame.Rect(self.hitbox_target[0], self.hitbox_target[1], self.hitbox_target[2], self.hitbox_target[3])
+		bossArea = pygame.Rect(self.hitbox_hit_left[0] + 150, self.hitbox_hit_left[1], 150, 200)
+		if playerArea.colliderect(bossArea):
+			return True
 		return False
 
 	def update_walk(self,speed):
