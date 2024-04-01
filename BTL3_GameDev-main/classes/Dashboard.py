@@ -18,6 +18,7 @@ class Dashboard(Font):
     def update(self, live):
         self.drawText("LIVE:", 50, 20, 15)
         self.drawText(self.pointString(), 50, 37, 15)
+            
 
         self.drawText("@x{}".format(self.coinString()), 225, 37, 15)
 
@@ -29,7 +30,10 @@ class Dashboard(Font):
         if self.state != "menu":
             self.drawText(self.timeString(), 535, 37, 15)
         self.lives = live
-        self.drawText(str(self.lives), 140, 20, 15)
+        if (live > -1):
+            self.drawText(str(self.lives), 140, 20, 15)
+        else:
+            self.drawText('0', 140, 20, 15)
 
         # update Time
         self.ticks += 1

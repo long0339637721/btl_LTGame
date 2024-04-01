@@ -205,21 +205,21 @@ class Mario(EntityBaseCharacter):
                     return 0
                 else: 
                     self.preIndex = indexAttackSprite
-                    return 6
+                    return 9
             if indexAttackSprite in [8, 9, 10, 11, 12, 13, 14, 15]:
                 if self.preIndex == indexAttackSprite:
                     self.preIndex = indexAttackSprite
                     return 0
                 else: 
                     self.preIndex = indexAttackSprite
-                    return 3
+                    return 6
             if indexAttackSprite in [22]:
                 if self.preIndex == indexAttackSprite:
                     self.preIndex = indexAttackSprite
                     return 0
                 else: 
                     self.preIndex = indexAttackSprite
-                    return 15
+                    return 20
         return 0
 
     def _onCollisionWithItem(self, item):
