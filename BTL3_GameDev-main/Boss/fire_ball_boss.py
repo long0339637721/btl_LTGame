@@ -1,10 +1,11 @@
 import pygame, sys
 
 class Fire_ball(pygame.sprite.Sprite):
-    def __init__(self, pos_x, pos_y,camera,mario):
+    def __init__(self, pos_x, pos_y,camera,mario, screen):
       super().__init__()
       self.camera=camera
       self.mario=mario
+      self.screen = screen
       self.x=pos_x
       self.y=pos_y
 
@@ -36,19 +37,35 @@ class Fire_ball(pygame.sprite.Sprite):
        if not(self.y - self.hitbox[3] < self.hitbox_target[1]) and ((self.hitbox[0] - 10 + self.hitbox[2] < self.hitbox_target[0] + self.hitbox_target[2] and scale == -1)or (self.hitbox[0] + 75  + self.hitbox[2] > self.hitbox_target[0] + self.hitbox_target[2] and scale == 1)):
             self.is_evade=True
        
-       if self.y + self.hitbox[3] > self.hitbox_target[1] and self.y - self.hitbox[3] < self.hitbox_target[1]:
-         if (self.hitbox[0] - 10 + self.hitbox[2] < self.hitbox_target[0] + self.hitbox_target[2] and scale == -1) or (self.hitbox[0] + 75  + self.hitbox[2] > self.hitbox_target[0] + self.hitbox_target[2] and scale == 1):
-            if self.is_evade == False:
+       pygame.draw.rect(self.screen, (255,0,0), (self.x + 25 + self.camera.x, self.y + 40, 50, 25))
+       pygame.draw.rect(self.screen, (255,0,0), (self.hitbox_target[0] + self.camera.x, self.hitbox_target[1], self.hitbox_target[2], self.hitbox_target[3]))
+       
+       fireBallArea = pygame.Rect(self.x + 25, self.y + 40, 50, 25)
+       playerArea = pygame.Rect(self.hitbox_target[0], self.hitbox_target[1], self.hitbox_target[2], self.hitbox_target[3])
+       
+       if playerArea.colliderect(fireBallArea):
+          if self.is_evade == False:
                self.ismove = False
                self.mario.powerUpState-=1
                print(self.mario.powerUpState)
                if self.mario.powerUpState < 0:
                   self.mario.gameOver()  
                print("hit_fire")
+               
+      #  if self.y + self.hitbox[3] > self.hitbox_target[1] and self.y - self.hitbox[3] < self.hitbox_target[1]:
+      #    if (self.hitbox[0] - 10 + self.hitbox[2] < self.hitbox_target[0] + self.hitbox_target[2] and scale == -1) or (self.hitbox[0] + 75  + self.hitbox[2] > self.hitbox_target[0] + self.hitbox_target[2] and scale == 1):
+      #       if self.is_evade == False:
+      #          self.ismove = False
+      #          self.mario.powerUpState-=1
+      #          print(self.mario.powerUpState)
+      #          if self.mario.powerUpState < 0:
+      #             self.mario.gameOver()  
+      #          print("hit_fire")
 
 
     def update_pos(self, pos_x, pos_y):
        self.rect.topleft = (pos_x + self.camera.x, pos_y)
+       print(self.rect.topleft)
 
     #move
     def move(self,scale):

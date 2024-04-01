@@ -31,7 +31,7 @@ def main():
     mario = Mario(0, 0, level, screen, dashboard, sound)
     is_boss=False
     moving_sprites = pygame.sprite.Group()
-    fire_ball = Fire_ball(20, 20,mario.camera,mario)
+    fire_ball = Fire_ball(20,20,mario.camera,mario, screen)
     boss = Boss(118,6,fire_ball,moving_sprites,screen,mario.camera,mario)
     moving_sprites.add(boss)
 
